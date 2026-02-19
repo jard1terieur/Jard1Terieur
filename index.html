@@ -2059,6 +2059,195 @@
             .btn { width: 100%; justify-content: center; }
             .hero-stats { grid-template-columns: 1fr; }
         }
+		
+		/* ==================== CORRECTIONS RESPONSIVE MOBILE ==================== */
+
+		/* Bloque tout débordement horizontal */
+		html, body {
+			overflow-x: hidden;
+			width: 100%;
+			position: relative;
+		}
+
+		/* Empêche les images de déborder */
+		img {
+			max-width: 100%;
+			height: auto;
+			display: block;
+		}
+
+		/* Fix pour les grilles sur mobile */
+		@media (max-width: 768px) {
+			/* Réduction des padding latéraux */
+			.hero, .services, .project-showcase, .partner, .contact {
+				padding-left: 1rem;
+				padding-right: 1rem;
+			}
+
+			/* Grille services : une colonne sur mobile */
+			.services-grid {
+				grid-template-columns: 1fr;
+				gap: 1.5rem;
+			}
+
+			/* Grille showcase : une colonne forcée */
+			.showcase-grid {
+				grid-template-columns: 1fr;
+				gap: 1.5rem;
+			}
+
+			/* Empêche les cartes larges de déborder */
+			.showcase-card.large,
+			.showcase-card.wide {
+				grid-column: span 1;
+			}
+
+			/* Réduction hauteur images */
+			.card-image,
+			.showcase-card.large .card-image,
+			.showcase-card.wide .card-image {
+				height: 250px;
+			}
+
+			/* Hero stats en colonne unique */
+			.hero-stats {
+				grid-template-columns: 1fr;
+				gap: 1rem;
+			}
+
+			/* Texte hero plus petit */
+			.hero-text h1 {
+				font-size: clamp(2rem, 8vw, 3rem);
+			}
+
+			.hero-text .subtitle {
+				font-size: 1.2rem;
+				letter-spacing: 1px;
+			}
+
+			/* Boutons CTA en colonne */
+			.cta-group {
+				flex-direction: column;
+				width: 100%;
+				gap: 1rem;
+			}
+
+			.btn {
+				width: 100%;
+				justify-content: center;
+				padding: 0.9rem 1.5rem;
+				font-size: 0.85rem;
+			}
+
+			/* Contact grid en colonne */
+			.contact-grid {
+				grid-template-columns: 1fr;
+			}
+
+			/* Section tag plus petit */
+			.section-tag {
+				font-size: 0.75rem;
+				padding: 0.4rem 1rem;
+			}
+
+			/* Project CTA padding réduit */
+			.project-cta {
+				padding: 2rem 1.5rem;
+				margin-top: 3rem;
+			}
+
+			.cta-content h3 {
+				font-size: 1.5rem;
+			}
+		}
+
+		/* Fix spécifique pour très petits écrans (iPhone SE, etc) */
+		@media (max-width: 480px) {
+			.hero {
+				padding-top: 7rem;
+				padding-bottom: 3rem;
+				min-height: auto;
+			}
+
+			.stat-card {
+				padding: 1.5rem 1rem;
+			}
+
+			.stat-value {
+				font-size: 1.5rem;
+			}
+
+			.service-card {
+				padding: 2rem 1.5rem;
+			}
+
+			.service-icon {
+				font-size: 2rem;
+			}
+
+			/* Logo plus petit */
+			.logo {
+				font-size: 1.3rem;
+			}
+
+			.logo-icon {
+				width: 30px;
+				height: 30px;
+			}
+
+			/* Navigation plus compacte */
+			nav {
+				padding: 1rem;
+			}
+
+			.nav-container {
+				flex-wrap: wrap;
+				gap: 0.5rem;
+			}
+
+			/* Theme switcher repositionné si besoin */
+			.theme-switcher {
+				order: 3;
+				width: 100%;
+				margin-top: 0.5rem;
+			}
+
+			.theme-btn {
+				width: 100%;
+				justify-content: center;
+			}
+		}
+
+		/* Fix pour les tablettes intermédiaires */
+		@media (min-width: 769px) and (max-width: 1024px) {
+			.hero-content {
+				grid-template-columns: 1fr;
+				gap: 3rem;
+			}
+
+			.showcase-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.showcase-card.large,
+			.showcase-card.wide {
+				grid-column: span 2;
+			}
+		}
+
+		/* Animation plus fluide sur mobile (réduction de la charge GPU) */
+		@media (max-width: 768px) {
+			.gradient-orb {
+				opacity: 0.2;
+				filter: blur(60px);
+			}
+
+			/* Désactive le parallaxe sur mobile pour éviter les saccades */
+			.cyber-grid {
+				perspective: none;
+				transform: none;
+			}
+		}
     </style>
 <base target="_blank">
 </head>
