@@ -2,12 +2,20 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jard1Terieur | Culture Indoor & IA</title>
-    
+    <meta name="description" content="Services d'aide à la culture indoor, installation d'équipement horticole et assistance IA. MicroJardin Génétique Bureau - ERP horticole.">
+
+    <!-- Favicon standard -->
+    <link rel="icon" type="image/png" href="images/logograineneo.png">
+    <!-- Favicon pour Apple devices -->
+    <link rel="apple-touch-icon" href="images/logograineneo.png">
+    <!-- Favicon pour Android/Chrome -->
+    <link rel="shortcut icon" href="images/logograineneo.png" type="image/png">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -15,6 +23,7 @@
         }
 
         :root {
+            /* Thème Night City (Défaut) */
             --neon-green: #00ff88;
             --neon-cyan: #00d9ff;
             --neon-pink: #ff006e;
@@ -23,19 +32,66 @@
             --dark-bg: #0a0a0f;
             --panel-bg: rgba(20, 20, 30, 0.6);
             --grid-color: rgba(0, 255, 136, 0.05);
+            --text-primary: #fff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-color: var(--neon-green);
+            --font-primary: 'Orbitron', sans-serif;
+            --font-secondary: 'Rajdhani', sans-serif;
+            --theme-name: 'night-city';
         }
 
-        html, body {
-            font-family: 'Rajdhani', sans-serif;
+        /* Thème Nature - Sobre, Crème/Marron, Bien-être */
+        [data-theme="nature"] {
+            --cream: #F5F1E8;
+            --cream-dark: #E8E0D0;
+            --brown-light: #D4C4A8;
+            --brown: #8B7355;
+            --brown-dark: #4A3728;
+            --terracotta: #C9A87C;
+            --sage: #9CAF88;
+            --dark-bg: #F5F1E8;
+            --panel-bg: rgba(255, 255, 255, 0.7);
+            --grid-color: rgba(139, 115, 85, 0.03);
+            --text-primary: #4A3728;
+            --text-secondary: rgba(74, 55, 40, 0.7);
+            --accent-color: var(--brown);
+            --font-primary: 'Cormorant Garamond', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+            --shadow-soft: 0 4px 20px rgba(74, 55, 40, 0.08);
+            --shadow-medium: 0 8px 30px rgba(74, 55, 40, 0.12);
+        }
+
+        /* Thème Botanique - Vert nature, effets organiques */
+        [data-theme="botanique"] {
+            --forest: #1B4332;
+            --forest-light: #2D6A4F;
+            --moss: #40916C;
+            --leaf: #52B788;
+            --mint: #74C69D;
+            --light-mint: #D8F3DC;
+            --cream-bot: #F1F8E9;
+            --dark-bg: #F1F8E9;
+            --panel-bg: rgba(255, 255, 255, 0.8);
+            --grid-color: rgba(64, 145, 108, 0.05);
+            --text-primary: #1B4332;
+            --text-secondary: rgba(27, 67, 50, 0.75);
+            --accent-color: var(--moss);
+            --font-primary: 'Cormorant Garamond', serif;
+            --font-secondary: 'Montserrat', sans-serif;
+            --shadow-soft: 0 4px 20px rgba(27, 67, 50, 0.1);
+            --shadow-medium: 0 8px 30px rgba(27, 67, 50, 0.15);
+        }
+
+        body {
+            font-family: var(--font-secondary);
             background: var(--dark-bg);
-            color: #fff;
-            overflow-x: hidden; /* Empêche le débordement horizontal */
+            color: var(--text-primary);
+            overflow-x: hidden;
             line-height: 1.6;
-            width: 100%;
-            max-width: 100vw;
+            transition: all 0.5s ease;
         }
 
-        /* CORRECTION : Background Grid & Effects */
+        /* Background Grid & Effects - Night City */
         .cyber-grid {
             position: fixed;
             top: 0;
@@ -47,7 +103,9 @@
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 50px 50px;
             z-index: -2;
-            pointer-events: none; /* Évite les problèmes d'interaction */
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            transition: all 0.5s ease;
         }
 
         .scanline {
@@ -61,6 +119,7 @@
             z-index: 9999;
             pointer-events: none;
             opacity: 0.3;
+            transition: opacity 0.5s ease;
         }
 
         .gradient-orb {
@@ -70,12 +129,31 @@
             z-index: -1;
             opacity: 0.4;
             animation: float 20s infinite ease-in-out;
-            max-width: 100%; /* Limite la taille des orbes */
+            transition: all 0.5s ease;
         }
 
-        .orb-1 { width: 50vw; height: 50vw; max-width: 600px; max-height: 600px; background: var(--neon-green); top: -10%; left: -10%; }
-        .orb-2 { width: 40vw; height: 40vw; max-width: 500px; max-height: 500px; background: var(--neon-purple); bottom: -10%; right: -10%; animation-delay: -5s; }
-        .orb-3 { width: 35vw; height: 35vw; max-width: 400px; max-height: 400px; background: var(--neon-cyan); top: 40%; left: 60%; animation-delay: -10s; }
+        [data-theme="night-city"] .orb-1 { width: 600px; height: 600px; background: var(--neon-green); top: -200px; left: -200px; }
+        [data-theme="night-city"] .orb-2 { width: 500px; height: 500px; background: var(--neon-purple); bottom: -150px; right: -150px; animation-delay: -5s; }
+        [data-theme="night-city"] .orb-3 { width: 400px; height: 400px; background: var(--neon-cyan); top: 40%; left: 60%; animation-delay: -10s; }
+
+        /* Orbs Nature - Subtils et chauds */
+        [data-theme="nature"] .gradient-orb {
+            filter: blur(80px);
+            opacity: 0.25;
+        }
+        [data-theme="nature"] .orb-1 { width: 500px; height: 500px; background: var(--terracotta); top: -150px; left: -100px; }
+        [data-theme="nature"] .orb-2 { width: 400px; height: 400px; background: var(--sage); bottom: -100px; right: -100px; animation-delay: -5s; }
+        [data-theme="nature"] .orb-3 { width: 350px; height: 350px; background: var(--brown-light); top: 40%; left: 50%; animation-delay: -10s; }
+
+        /* Orbs Botanique - Verts organiques */
+        [data-theme="botanique"] .gradient-orb {
+            filter: blur(90px);
+            opacity: 0.3;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        [data-theme="botanique"] .orb-1 { width: 550px; height: 550px; background: var(--leaf); top: -180px; left: -150px; }
+        [data-theme="botanique"] .orb-2 { width: 450px; height: 450px; background: var(--mint); bottom: -120px; right: -120px; animation-delay: -5s; }
+        [data-theme="botanique"] .orb-3 { width: 400px; height: 400px; background: var(--moss); top: 45%; left: 55%; animation-delay: -10s; }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -83,11 +161,162 @@
             66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
+        /* Typography */
         h1, h2, h3, .logo {
-            font-family: 'Orbitron', sans-serif;
+            font-family: var(--font-primary);
             text-transform: uppercase;
             letter-spacing: 2px;
-            word-wrap: break-word; /* Évite le débordement du texte */
+            transition: all 0.5s ease;
+        }
+
+        [data-theme="nature"] h1, [data-theme="nature"] h2, [data-theme="nature"] h3, [data-theme="nature"] .logo {
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        [data-theme="botanique"] h1, [data-theme="botanique"] h2, [data-theme="botanique"] h3, [data-theme="botanique"] .logo {
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+        }
+
+        /* Theme Switcher */
+        .theme-switcher {
+            position: relative;
+            z-index: 1001;
+        }
+
+        .theme-btn {
+            background: var(--panel-bg);
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-family: var(--font-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        [data-theme="night-city"] .theme-btn {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
+
+        [data-theme="nature"] .theme-btn {
+            border-color: var(--brown);
+            color: var(--brown);
+            box-shadow: 0 2px 10px rgba(74, 55, 40, 0.1);
+            border-radius: 25px;
+        }
+
+        [data-theme="botanique"] .theme-btn {
+            border-color: var(--forest);
+            color: var(--forest);
+            box-shadow: 0 2px 10px rgba(27, 67, 50, 0.15);
+            border-radius: 25px 5px 25px 5px;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--accent-color);
+            border-radius: 15px;
+            padding: 0.8rem;
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        [data-theme="night-city"] .theme-dropdown {
+            border-color: var(--neon-green);
+            background: rgba(10, 10, 15, 0.95);
+        }
+
+        [data-theme="nature"] .theme-dropdown {
+            border-color: var(--brown-light);
+            background: rgba(245, 241, 232, 0.98);
+            border-radius: 20px;
+        }
+
+        [data-theme="botanique"] .theme-dropdown {
+            border-color: var(--leaf);
+            background: rgba(241, 248, 233, 0.98);
+            border-radius: 20px 5px 20px 5px;
+        }
+
+        .theme-switcher.active .theme-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .theme-option {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        [data-theme="night-city"] .theme-option:hover {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+        }
+
+        [data-theme="nature"] .theme-option:hover {
+            background: rgba(139, 115, 85, 0.1);
+            color: var(--brown);
+        }
+
+        [data-theme="botanique"] .theme-option:hover {
+            background: rgba(64, 145, 108, 0.1);
+            color: var(--forest);
+        }
+
+        .theme-option.active {
+            font-weight: 700;
+        }
+
+        [data-theme="night-city"] .theme-option.active {
+            color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.15);
+        }
+
+        [data-theme="nature"] .theme-option.active {
+            color: var(--brown);
+            background: rgba(139, 115, 85, 0.15);
+        }
+
+        [data-theme="botanique"] .theme-option.active {
+            color: var(--forest);
+            background: rgba(64, 145, 108, 0.15);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
         }
 
         /* Loader */
@@ -107,34 +336,50 @@
         }
 
         .loader.hidden { opacity: 0; pointer-events: none; }
-        
+
         .loader-text {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.5rem, 8vw, 3rem); /* Responsive */
+            font-family: var(--font-primary);
+            font-size: 3rem;
             font-weight: 700;
-            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: glitch 2s infinite;
-            text-align: center;
+        }
+
+        [data-theme="nature"] .loader-text,
+        [data-theme="botanique"] .loader-text {
+            animation: none;
+            letter-spacing: 3px;
         }
 
         .loader-bar {
-            width: min(200px, 80%); /* Responsive */
+            width: 200px;
             height: 4px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
             margin-top: 20px;
             border-radius: 2px;
             overflow: hidden;
             position: relative;
         }
 
+        [data-theme="nature"] .loader-bar,
+        [data-theme="botanique"] .loader-bar {
+            height: 3px;
+            border-radius: 10px;
+        }
+
         .loader-progress {
             height: 100%;
-            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            background: var(--accent-color);
             width: 0%;
             animation: load 2s ease-out forwards;
-            box-shadow: 0 0 20px var(--neon-green);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        [data-theme="nature"] .loader-progress,
+        [data-theme="botanique"] .loader-progress {
+            box-shadow: none;
         }
 
         @keyframes load { to { width: 100%; } }
@@ -149,39 +394,78 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
+            gap: 1rem;
         }
-        
+
         .logo-icon {
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
             transition: all 0.3s ease;
         }
-        
+
+        [data-theme="nature"] .logo-icon {
+            filter: sepia(0.3) drop-shadow(0 2px 4px rgba(74, 55, 40, 0.2));
+        }
+
+        [data-theme="botanique"] .logo-icon {
+            filter: hue-rotate(20deg) drop-shadow(0 2px 4px rgba(27, 67, 50, 0.2));
+        }
+
         .logo-container:hover .logo-icon {
             filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8));
             transform: rotate(5deg) scale(1.1);
         }
-		
+
+        [data-theme="nature"] .logo-container:hover .logo-icon {
+            filter: sepia(0.4) drop-shadow(0 4px 8px rgba(74, 55, 40, 0.3));
+            transform: scale(1.05);
+        }
+
+        [data-theme="botanique"] .logo-container:hover .logo-icon {
+            filter: hue-rotate(20deg) drop-shadow(0 4px 8px rgba(27, 67, 50, 0.3));
+            transform: rotate(-3deg) scale(1.05);
+        }
+
         /* Navigation */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1rem 4%; /* Réduit sur mobile */
-            background: rgba(10, 10, 15, 0.9);
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 15, 0.8);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0, 255, 136, 0.2);
             z-index: 1000;
             transition: all 0.3s ease;
         }
 
+        [data-theme="nature"] nav {
+            background: rgba(245, 241, 232, 0.9);
+            border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+            box-shadow: 0 2px 20px rgba(74, 55, 40, 0.05);
+        }
+
+        [data-theme="botanique"] nav {
+            background: rgba(241, 248, 233, 0.92);
+            border-bottom: 1px solid rgba(64, 145, 108, 0.2);
+            box-shadow: 0 2px 20px rgba(27, 67, 50, 0.08);
+        }
+
         nav.scrolled {
-            padding: 0.8rem 4%;
-            background: rgba(10, 10, 15, 0.98);
+            padding: 1rem 5%;
+            background: rgba(10, 10, 15, 0.95);
             box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+        }
+
+        [data-theme="nature"] nav.scrolled {
+            background: rgba(245, 241, 232, 0.98);
+            box-shadow: 0 4px 30px rgba(74, 55, 40, 0.1);
+        }
+
+        [data-theme="botanique"] nav.scrolled {
+            background: rgba(241, 248, 233, 0.98);
+            box-shadow: 0 4px 30px rgba(27, 67, 50, 0.12);
         }
 
         .nav-container {
@@ -190,17 +474,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
         }
 
         .logo {
-            font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive */
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--neon-green);
             text-decoration: none;
             text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
             position: relative;
-            white-space: nowrap;
+        }
+
+        [data-theme="nature"] .logo {
+            color: var(--brown);
+            text-shadow: none;
+            font-weight: 700;
+        }
+
+        [data-theme="botanique"] .logo {
+            color: var(--forest);
+            text-shadow: none;
+            font-weight: 700;
         }
 
         .logo::after {
@@ -208,11 +502,21 @@
             animation: blink 1s infinite;
         }
 
+        [data-theme="nature"] .logo::after,
+        [data-theme="botanique"] .logo::after {
+            content: '•';
+            animation: pulse 2s infinite;
+        }
+
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        @keyframes pulse { 
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 3rem;
             list-style: none;
         }
 
@@ -220,12 +524,25 @@
             color: #fff;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             position: relative;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            white-space: nowrap;
+        }
+
+        [data-theme="nature"] .nav-links a {
+            color: var(--brown);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        [data-theme="botanique"] .nav-links a {
+            color: var(--forest);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 500;
         }
 
         .nav-links a::before {
@@ -237,14 +554,45 @@
             transition: all 0.3s ease;
         }
 
+        [data-theme="nature"] .nav-links a::before {
+            content: '—';
+            left: -20px;
+            color: var(--terracotta);
+        }
+
+        [data-theme="botanique"] .nav-links a::before {
+            content: '🌿';
+            left: -25px;
+            color: var(--leaf);
+            font-size: 0.8rem;
+        }
+
         .nav-links a:hover {
             color: var(--neon-green);
             transform: translateX(10px);
         }
 
+        [data-theme="nature"] .nav-links a:hover {
+            color: var(--brown-dark);
+            transform: translateX(5px);
+        }
+
+        [data-theme="botanique"] .nav-links a:hover {
+            color: var(--moss);
+            transform: translateX(5px);
+        }
+
         .nav-links a:hover::before {
             opacity: 1;
             left: -10px;
+        }
+
+        [data-theme="nature"] .nav-links a:hover::before {
+            left: -15px;
+        }
+
+        [data-theme="botanique"] .nav-links a:hover::before {
+            left: -20px;
         }
 
         .mobile-menu-btn {
@@ -253,77 +601,137 @@
             border: 2px solid var(--neon-green);
             color: var(--neon-green);
             padding: 0.5rem 1rem;
-            font-family: 'Orbitron', sans-serif;
+            font-family: var(--font-primary);
             cursor: pointer;
             text-transform: uppercase;
-            font-size: 0.8rem;
         }
 
-        /* Hero Section - CORRECTIONS MAJEURES */
+        [data-theme="nature"] .mobile-menu-btn {
+            border-color: var(--brown);
+            color: var(--brown);
+            text-transform: none;
+            font-family: var(--font-secondary);
+            border-radius: 8px;
+        }
+
+        [data-theme="botanique"] .mobile-menu-btn {
+            border-color: var(--forest);
+            color: var(--forest);
+            text-transform: none;
+            font-family: var(--font-secondary);
+            border-radius: 15px 5px 15px 5px;
+        }
+
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8rem 4% 4rem; /* Réduit le padding */
+            padding: 10rem 5% 5rem;
             position: relative;
             overflow: hidden;
-            width: 100%;
+        }
+
+        [data-theme="nature"] .hero {
+            background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+        }
+
+        [data-theme="botanique"] .hero {
+            background: linear-gradient(135deg, var(--light-mint) 0%, var(--cream-bot) 100%);
         }
 
         .hero-content {
             max-width: 1400px;
-            width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 3rem;
+            gap: 4rem;
             align-items: center;
         }
 
         .hero-text h1 {
-            font-size: clamp(2rem, 5vw, 4.5rem); /* Responsive */
+            font-size: clamp(3rem, 6vw, 5rem);
             line-height: 1.1;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #fff 0%, var(--neon-green) 50%, var(--neon-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
-            word-wrap: break-word;
+        }
+
+        [data-theme="nature"] .hero-text h1 {
+            background: linear-gradient(135deg, var(--brown-dark) 0%, var(--brown) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 400;
+            letter-spacing: -1px;
+        }
+
+        [data-theme="botanique"] .hero-text h1 {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
         }
 
         .hero-text .subtitle {
-            font-size: clamp(1rem, 3vw, 1.5rem); /* Responsive */
+            font-size: 1.8rem;
             color: var(--neon-cyan);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             font-weight: 600;
             text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        [data-theme="nature"] .hero-text .subtitle {
+            color: var(--terracotta);
+            text-transform: none;
             letter-spacing: 2px;
-            word-wrap: break-word;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        [data-theme="botanique"] .hero-text .subtitle {
+            color: var(--forest-light);
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 500;
         }
 
         .hero-text p {
-            font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive */
+            font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             border-left: 3px solid var(--neon-green);
-            padding-left: 1.5rem;
-            word-wrap: break-word;
+            padding-left: 2rem;
+        }
+
+        [data-theme="nature"] .hero-text p {
+            color: var(--text-secondary);
+            border-left: 2px solid var(--terracotta);
+            font-weight: 400;
+        }
+
+        [data-theme="botanique"] .hero-text p {
+            color: var(--text-secondary);
+            border-left: 3px solid var(--leaf);
+            border-radius: 0 0 0 10px;
         }
 
         .cta-group {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2.5rem;
             border-radius: 4px;
             text-decoration: none;
             font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
+            font-family: var(--font-primary);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -332,9 +740,23 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            font-size: clamp(0.75rem, 1.5vw, 0.9rem); /* Responsive */
-            text-align: center;
-            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="nature"] .btn {
+            border-radius: 30px;
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+        }
+
+        [data-theme="botanique"] .btn {
+            border-radius: 25px 8px 25px 8px;
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
         }
 
         .btn::before {
@@ -355,32 +777,79 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
             color: var(--dark-bg);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
             border-color: var(--neon-green);
+        }
+
+        [data-theme="nature"] .btn-primary {
+            background: linear-gradient(135deg, var(--brown) 0%, var(--terracotta) 100%);
+            color: var(--cream);
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+            border-color: var(--brown);
+        }
+
+        [data-theme="botanique"] .btn-primary {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(27, 67, 50, 0.25);
+            border-color: var(--forest);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.6);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.6);
+        }
+
+        [data-theme="nature"] .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.4);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="botanique"] .btn-primary:hover {
+            box-shadow: 0 8px 30px rgba(27, 67, 50, 0.35);
+            transform: translateY(-2px);
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--neon-green);
             border-color: var(--neon-green);
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+
+        [data-theme="nature"] .btn-secondary {
+            color: var(--brown);
+            border-color: var(--brown);
+            box-shadow: 0 2px 10px rgba(74, 55, 40, 0.1);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        [data-theme="botanique"] .btn-secondary {
+            color: var(--forest);
+            border-color: var(--forest);
+            box-shadow: 0 2px 15px rgba(27, 67, 50, 0.1);
+            background: rgba(255, 255, 255, 0.6);
         }
 
         .btn-secondary:hover {
             background: rgba(0, 255, 136, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        [data-theme="nature"] .btn-secondary:hover {
+            background: rgba(139, 115, 85, 0.1);
+            box-shadow: 0 4px 15px rgba(74, 55, 40, 0.15);
+        }
+
+        [data-theme="botanique"] .btn-secondary:hover {
+            background: rgba(64, 145, 108, 0.1);
+            box-shadow: 0 4px 20px rgba(27, 67, 50, 0.15);
         }
 
         .hero-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            width: 100%;
+            gap: 1.5rem;
         }
 
         .stat-card {
@@ -388,11 +857,25 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.2);
             border-radius: 16px;
-            padding: 1.5rem 1rem;
+            padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+        }
+
+        [data-theme="nature"] .stat-card {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(139, 115, 85, 0.15);
+            border-radius: 20px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        [data-theme="botanique"] .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(64, 145, 108, 0.2);
+            border-radius: 25px 15px 25px 15px;
+            box-shadow: var(--shadow-soft);
         }
 
         .stat-card::after {
@@ -409,6 +892,16 @@
             transition: opacity 0.3s ease;
         }
 
+        [data-theme="nature"] .stat-card::after {
+            background: linear-gradient(45deg, var(--terracotta), transparent, var(--sage));
+            border-radius: 22px;
+        }
+
+        [data-theme="botanique"] .stat-card::after {
+            background: linear-gradient(45deg, var(--leaf), transparent, var(--mint));
+            border-radius: 27px 17px 27px 17px;
+        }
+
         .stat-card:hover::after {
             opacity: 1;
         }
@@ -418,44 +911,84 @@
             border-color: transparent;
         }
 
+        [data-theme="nature"] .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        [data-theme="botanique"] .stat-card:hover {
+            transform: translateY(-3px) rotate(1deg);
+            box-shadow: var(--shadow-medium);
+        }
+
         .stat-icon {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
         .stat-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.2rem, 3vw, 1.8rem); /* Responsive */
+            font-family: var(--font-primary);
+            font-size: 2rem;
             color: var(--neon-green);
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
+        [data-theme="nature"] .stat-value {
+            color: var(--brown);
+            text-shadow: none;
+            font-weight: 600;
+        }
+
+        [data-theme="botanique"] .stat-value {
+            color: var(--forest);
+            text-shadow: none;
+            font-weight: 700;
+        }
+
         .stat-label {
             color: rgba(255,255,255,0.6);
-            font-size: clamp(0.7rem, 1.5vw, 0.85rem); /* Responsive */
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 0.5rem;
         }
 
+        [data-theme="nature"] .stat-label {
+            color: var(--text-secondary);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+
+        [data-theme="botanique"] .stat-label {
+            color: var(--text-secondary);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+        }
+
         /* Services Section */
         .services {
-            padding: 5rem 4%; /* Réduit */
+            padding: 8rem 5%;
             position: relative;
-            width: 100%;
-            overflow: hidden;
+        }
+
+        [data-theme="nature"] .services {
+            background: linear-gradient(180deg, var(--cream-dark) 0%, var(--cream) 100%);
+        }
+
+        [data-theme="botanique"] .services {
+            background: linear-gradient(180deg, var(--cream-bot) 0%, var(--light-mint) 100%);
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            width: 100%;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 3rem;
-            width: 100%;
+            margin-bottom: 5rem;
         }
 
         .section-tag {
@@ -463,48 +996,96 @@
             color: var(--neon-cyan);
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 1rem;
-            font-size: clamp(0.7rem, 2vw, 0.9rem); /* Responsive */
+            font-size: 0.9rem;
             border: 1px solid var(--neon-cyan);
-            padding: 0.4rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
             background: rgba(0, 217, 255, 0.1);
         }
 
+        [data-theme="nature"] .section-tag {
+            color: var(--brown);
+            border-color: var(--brown-light);
+            background: rgba(139, 115, 85, 0.1);
+            text-transform: none;
+            letter-spacing: 2px;
+            font-weight: 600;
+            border-radius: 30px;
+        }
+
+        [data-theme="botanique"] .section-tag {
+            color: var(--forest);
+            border-color: var(--leaf);
+            background: rgba(64, 145, 108, 0.1);
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 600;
+            border-radius: 25px 10px 25px 10px;
+        }
+
         .section-header h2 {
-            font-size: clamp(1.5rem, 4vw, 3rem); /* Responsive */
-            margin-bottom: 1rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
             background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        [data-theme="nature"] .section-header h2 {
+            background: linear-gradient(135deg, var(--brown-dark) 0%, var(--brown) 100%);
+            -webkit-background-clip: text;
+            font-weight: 400;
+        }
+
+        [data-theme="botanique"] .section-header h2 {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 100%);
+            -webkit-background-clip: text;
+            font-weight: 600;
+        }
+
         .section-header p {
             color: rgba(255, 255, 255, 0.6);
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: 1.3rem;
             max-width: 600px;
             margin: 0 auto;
-            padding: 0 1rem;
+        }
+
+        [data-theme="nature"] .section-header p,
+        [data-theme="botanique"] .section-header p {
+            color: var(--text-secondary);
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Réduit de 350px à 280px */
-            gap: 1.5rem;
-            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .service-card {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.1);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            padding: 3rem 2rem;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            width: 100%;
+        }
+
+        [data-theme="nature"] .service-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(139, 115, 85, 0.1);
+            border-radius: 25px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        [data-theme="botanique"] .service-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(64, 145, 108, 0.15);
+            border-radius: 30px 20px 30px 20px;
+            box-shadow: var(--shadow-soft);
         }
 
         .service-card::before {
@@ -519,10 +1100,33 @@
             transition: transform 0.3s ease;
         }
 
+        [data-theme="nature"] .service-card::before {
+            height: 3px;
+            background: linear-gradient(90deg, var(--terracotta), var(--sage));
+        }
+
+        [data-theme="botanique"] .service-card::before {
+            height: 4px;
+            background: linear-gradient(90deg, var(--leaf), var(--mint));
+            border-radius: 0 0 10px 10px;
+        }
+
         .service-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
             border-color: rgba(0, 255, 136, 0.3);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 30px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(0, 255, 136, 0.1);
+        }
+
+        [data-theme="nature"] .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: rgba(139, 115, 85, 0.2);
+        }
+
+        [data-theme="botanique"] .service-card:hover {
+            transform: translateY(-8px) rotate(-1deg);
+            box-shadow: var(--shadow-medium);
+            border-color: rgba(64, 145, 108, 0.25);
         }
 
         .service-card:hover::before {
@@ -530,8 +1134,8 @@
         }
 
         .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
             display: inline-block;
             transition: transform 0.3s ease;
         }
@@ -540,16 +1144,33 @@
             transform: scale(1.2);
         }
 
+        [data-theme="nature"] .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        [data-theme="botanique"] .service-card:hover .service-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
         .service-card h3 {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             color: #fff;
+        }
+
+        [data-theme="nature"] .service-card h3,
+        [data-theme="botanique"] .service-card h3 {
+            color: var(--text-primary);
         }
 
         .service-card p {
             color: rgba(255, 255, 255, 0.7);
             line-height: 1.6;
-            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        [data-theme="nature"] .service-card p,
+        [data-theme="botanique"] .service-card p {
+            color: var(--text-secondary);
         }
 
         .highlight {
@@ -557,13 +1178,36 @@
             font-weight: 700;
         }
 
-        /* Project Showcase Section - CORRECTIONS CRITIQUES */
+        [data-theme="nature"] .highlight {
+            color: var(--brown);
+            font-weight: 600;
+            background: linear-gradient(120deg, rgba(201, 168, 124, 0.2) 0%, rgba(201, 168, 124, 0) 100%);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        [data-theme="botanique"] .highlight {
+            color: var(--forest);
+            font-weight: 600;
+            background: linear-gradient(120deg, rgba(82, 183, 136, 0.2) 0%, rgba(82, 183, 136, 0) 100%);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        /* Project Showcase Section */
         .project-showcase {
-            padding: 5rem 4%;
+            padding: 8rem 5%;
             background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.03) 50%, transparent 100%);
             position: relative;
             overflow: hidden;
-            width: 100%;
+        }
+
+        [data-theme="nature"] .project-showcase {
+            background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 50%, var(--cream) 100%);
+        }
+
+        [data-theme="botanique"] .project-showcase {
+            background: linear-gradient(180deg, var(--light-mint) 0%, var(--cream-bot) 50%, var(--light-mint) 100%);
         }
 
         .project-showcase::before {
@@ -577,65 +1221,123 @@
             box-shadow: 0 0 20px var(--neon-green);
         }
 
+        [data-theme="nature"] .project-showcase::before {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--terracotta), var(--sage), transparent);
+            box-shadow: none;
+        }
+
+        [data-theme="botanique"] .project-showcase::before {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--leaf), var(--mint), transparent);
+            box-shadow: none;
+        }
+
         .badge-project {
             display: inline-block;
             background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
             color: var(--dark-bg);
-            padding: 0.6rem 1.5rem;
+            padding: 0.8rem 2rem;
             border-radius: 50px;
             font-weight: 800;
-            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            font-size: 0.9rem;
             text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+            font-family: var(--font-primary);
+        }
+
+        [data-theme="nature"] .badge-project {
+            background: linear-gradient(135deg, var(--brown), var(--terracotta));
+            color: white;
+            text-transform: none;
             letter-spacing: 2px;
-            margin-bottom: 1rem;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
-            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        [data-theme="botanique"] .badge-project {
+            background: linear-gradient(135deg, var(--forest), var(--moss));
+            color: white;
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            box-shadow: 0 4px 20px rgba(27, 67, 50, 0.25);
+            border-radius: 30px 15px 30px 15px;
         }
 
         .showcase-grid {
             display: grid;
-            grid-template-columns: 1fr; /* Par défaut 1 colonne sur mobile */
-            gap: 1.5rem;
-            margin-top: 3rem;
-            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
         }
 
-        /* CORRECTION : Les cartes large/wide ne doivent pas dépasser sur mobile */
         .showcase-card {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
             transition: all 0.4s ease;
             position: relative;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 100%; /* Empêche le débordement */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .showcase-card.large,
-        .showcase-card.wide {
-            grid-column: span 1; /* CORRECTION : Reset sur mobile */
+        [data-theme="nature"] .showcase-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(139, 115, 85, 0.15);
+            border-radius: 25px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        [data-theme="botanique"] .showcase-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(64, 145, 108, 0.2);
+            border-radius: 30px 20px 30px 20px;
+            box-shadow: var(--shadow-soft);
         }
 
         .showcase-card:hover {
-            transform: translateY(-5px) scale(1.01);
+            transform: translateY(-10px) scale(1.02);
             border-color: var(--neon-green);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 30px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 50px rgba(0, 255, 136, 0.2);
             z-index: 10;
+        }
+
+        [data-theme="nature"] .showcase-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+            border-color: rgba(139, 115, 85, 0.3);
+        }
+
+        [data-theme="botanique"] .showcase-card:hover {
+            transform: translateY(-8px) rotate(1deg);
+            box-shadow: var(--shadow-medium);
+            border-color: rgba(64, 145, 108, 0.35);
+        }
+
+        .showcase-card.large {
+            grid-column: span 2;
+        }
+
+        .showcase-card.wide {
+            grid-column: span 2;
         }
 
         .card-image {
             position: relative;
             width: 100%;
-            height: 250px; /* Hauteur fixe plus petite */
+            height: 350px;
             overflow: hidden;
         }
 
         .showcase-card.large .card-image,
         .showcase-card.wide .card-image {
-            height: 250px; /* Même hauteur sur mobile */
+            height: 450px;
         }
 
         .card-image img {
@@ -644,11 +1346,22 @@
             object-fit: cover;
             object-position: center;
             transition: transform 0.5s ease;
-            display: block; /* Évite l'espace blanc sous l'image */
+            filter: brightness(0.9) contrast(1.1);
         }
 
         .showcase-card:hover .card-image img {
-            transform: scale(1.05);
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1.2);
+        }
+
+        [data-theme="nature"] .card-image img,
+        [data-theme="botanique"] .card-image img {
+            filter: brightness(0.95) saturate(1.1);
+        }
+
+        [data-theme="nature"] .showcase-card:hover .card-image img,
+        [data-theme="botanique"] .showcase-card:hover .card-image img {
+            filter: brightness(1.05) saturate(1.2);
         }
 
         .image-overlay {
@@ -656,58 +1369,145 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(10,10,15,0.98), rgba(10,10,15,0.85), transparent);
-            padding: 2rem 1.5rem 1.5rem;
+            background: linear-gradient(to top, rgba(10,10,15,0.98), rgba(10,10,15,0.8), transparent);
+            padding: 3rem 2rem 2rem;
             color: white;
-            transform: translateY(0); /* Toujours visible sur mobile */
+            transform: translateY(20px);
+            transition: all 0.3s ease;
             border-top: 2px solid var(--neon-green);
         }
 
+        [data-theme="nature"] .image-overlay {
+            background: linear-gradient(to top, rgba(245,241,232,0.98), rgba(245,241,232,0.9), transparent);
+            color: var(--brown-dark);
+            border-top: 2px solid var(--terracotta);
+        }
+
+        [data-theme="botanique"] .image-overlay {
+            background: linear-gradient(to top, rgba(241,248,233,0.98), rgba(241,248,233,0.9), transparent);
+            color: var(--forest);
+            border-top: 3px solid var(--leaf);
+        }
+
+        .showcase-card:hover .image-overlay {
+            transform: translateY(0);
+            background: linear-gradient(to top, rgba(10,10,15,1), rgba(10,10,15,0.9), transparent);
+        }
+
+        [data-theme="nature"] .showcase-card:hover .image-overlay {
+            background: linear-gradient(to top, rgba(245,241,232,1), rgba(245,241,232,0.95), transparent);
+        }
+
+        [data-theme="botanique"] .showcase-card:hover .image-overlay {
+            background: linear-gradient(to top, rgba(241,248,233,1), rgba(241,248,233,0.95), transparent);
+        }
+
         .image-overlay h3 {
-            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
             color: var(--neon-green);
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        [data-theme="nature"] .image-overlay h3 {
+            color: var(--brown);
+            text-shadow: none;
+            font-weight: 600;
+        }
+
+        [data-theme="botanique"] .image-overlay h3 {
+            color: var(--forest);
+            text-shadow: none;
+            font-weight: 700;
         }
 
         .image-overlay p {
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            color: rgba(255,255,255,0.9);
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
             line-height: 1.4;
+            font-weight: 500;
+        }
+
+        [data-theme="nature"] .image-overlay p {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="botanique"] .image-overlay p {
+            color: var(--text-secondary);
         }
 
         .tag {
             display: inline-block;
-            padding: 0.3rem 0.8rem;
+            padding: 0.4rem 1rem;
             border-radius: 4px;
-            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            font-family: var(--font-primary);
             border: 1px solid;
         }
 
-        .tag.cro { color: var(--neon-green); border-color: var(--neon-green); background: rgba(0, 255, 136, 0.1); }
-        .tag.flo { color: var(--neon-purple); border-color: var(--neon-purple); background: rgba(199, 125, 255, 0.1); }
-        .tag.love { color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(255, 0, 110, 0.1); }
-        .tag.voice { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 217, 255, 0.1); }
+        [data-theme="nature"] .tag {
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            border-radius: 15px;
+        }
+
+        [data-theme="botanique"] .tag {
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            border-radius: 15px 5px 15px 5px;
+        }
+
+        .tag.cro { color: var(--neon-green); border-color: var(--neon-green); background: rgba(0, 255, 136, 0.1); box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+        .tag.flo { color: var(--neon-purple); border-color: var(--neon-purple); background: rgba(199, 125, 255, 0.1); box-shadow: 0 0 10px rgba(199, 125, 255, 0.2); }
+        .tag.love { color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(255, 0, 110, 0.1); box-shadow: 0 0 10px rgba(255, 0, 110, 0.2); }
+        .tag.voice { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 217, 255, 0.1); box-shadow: 0 0 10px rgba(0, 217, 255, 0.2); }
         .tag.cycle { color: var(--neon-yellow); border-color: var(--neon-yellow); background: rgba(255, 190, 11, 0.1); }
         .tag.alert { color: #ff8500; border-color: #ff8500; background: rgba(255, 133, 0, 0.1); }
         .tag.privacy { color: #00f5ff; border-color: #00f5ff; background: rgba(0, 245, 255, 0.1); }
 
+        [data-theme="nature"] .tag.cro { color: var(--brown); border-color: var(--terracotta); background: rgba(201, 168, 124, 0.15); box-shadow: none; }
+        [data-theme="nature"] .tag.flo { color: var(--sage); border-color: var(--sage); background: rgba(156, 175, 136, 0.15); box-shadow: none; }
+        [data-theme="nature"] .tag.love { color: #c9a87c; border-color: #c9a87c; background: rgba(201, 168, 124, 0.15); box-shadow: none; }
+        [data-theme="nature"] .tag.voice { color: var(--brown); border-color: var(--brown-light); background: rgba(139, 115, 85, 0.1); box-shadow: none; }
+
+        [data-theme="botanique"] .tag.cro { color: var(--forest); border-color: var(--moss); background: rgba(64, 145, 108, 0.15); box-shadow: none; }
+        [data-theme="botanique"] .tag.flo { color: var(--moss); border-color: var(--leaf); background: rgba(82, 183, 136, 0.15); box-shadow: none; }
+        [data-theme="botanique"] .tag.love { color: var(--forest-light); border-color: var(--mint); background: rgba(116, 198, 157, 0.15); box-shadow: none; }
+        [data-theme="botanique"] .tag.voice { color: var(--forest); border-color: var(--leaf); background: rgba(82, 183, 136, 0.1); box-shadow: none; }
+
         .project-cta {
-            margin-top: 3rem;
+            margin-top: 5rem;
             text-align: center;
-            padding: 2rem 1.5rem;
+            padding: 4rem;
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 2px solid rgba(0, 255, 136, 0.3);
-            border-radius: 20px;
+            border-radius: 30px;
             position: relative;
             overflow: hidden;
-            width: 100%;
+            box-shadow: 0 0 60px rgba(0, 255, 136, 0.1);
+        }
+
+        [data-theme="nature"] .project-cta {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(139, 115, 85, 0.2);
+            border-radius: 40px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        [data-theme="botanique"] .project-cta {
+            background: rgba(255, 255, 255, 0.85);
+            border: 2px solid rgba(64, 145, 108, 0.25);
+            border-radius: 40px 25px 40px 25px;
+            box-shadow: var(--shadow-medium);
         }
 
         .project-cta::before {
@@ -721,36 +1521,74 @@
             animation: pulse 4s ease-in-out infinite;
         }
 
+        [data-theme="nature"] .project-cta::before {
+            background: radial-gradient(circle, rgba(201, 168, 124, 0.1) 0%, transparent 70%);
+            animation: none;
+        }
+
+        [data-theme="botanique"] .project-cta::before {
+            background: radial-gradient(circle, rgba(82, 183, 136, 0.1) 0%, transparent 70%);
+            animation: none;
+        }
+
         .cta-content {
             position: relative;
             z-index: 1;
         }
 
         .cta-content h3 {
-            font-size: clamp(1.3rem, 4vw, 2rem);
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #fff;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        [data-theme="nature"] .cta-content h3 {
+            color: var(--brown-dark);
+            text-shadow: none;
+            font-weight: 400;
+        }
+
+        [data-theme="botanique"] .cta-content h3 {
+            color: var(--forest);
+            text-shadow: none;
+            font-weight: 600;
         }
 
         .cta-content p {
             color: rgba(255,255,255,0.8);
-            margin-bottom: 1.5rem;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        [data-theme="nature"] .cta-content p,
+        [data-theme="botanique"] .cta-content p {
+            color: var(--text-secondary);
+        }
+
         /* Partner Section */
         .partner {
-            padding: 4rem 4%;
+            padding: 6rem 5%;
             background: linear-gradient(135deg, rgba(0, 208, 132, 0.05) 0%, rgba(0, 168, 232, 0.05) 100%);
             border-top: 2px solid rgba(0, 255, 136, 0.2);
             border-bottom: 2px solid rgba(0, 255, 136, 0.2);
             position: relative;
             overflow: hidden;
-            width: 100%;
+        }
+
+        [data-theme="nature"] .partner {
+            background: linear-gradient(135deg, rgba(201, 168, 124, 0.1) 0%, rgba(156, 175, 136, 0.1) 100%);
+            border-top: 1px solid rgba(139, 115, 85, 0.15);
+            border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+        }
+
+        [data-theme="botanique"] .partner {
+            background: linear-gradient(135deg, rgba(82, 183, 136, 0.1) 0%, rgba(116, 198, 157, 0.1) 100%);
+            border-top: 1px solid rgba(64, 145, 108, 0.2);
+            border-bottom: 1px solid rgba(64, 145, 108, 0.2);
         }
 
         .partner::before {
@@ -769,34 +1607,78 @@
             );
         }
 
+        [data-theme="nature"] .partner::before {
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(139, 115, 85, 0.02) 10px,
+                rgba(139, 115, 85, 0.02) 20px
+            );
+        }
+
+        [data-theme="botanique"] .partner::before {
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(64, 145, 108, 0.03) 10px,
+                rgba(64, 145, 108, 0.03) 20px
+            );
+        }
+
         .partner-content {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 2rem;
+            gap: 4rem;
             position: relative;
             z-index: 1;
+            flex-wrap: wrap;
+            justify-content: center;
             text-align: center;
-            width: 100%;
         }
 
         .partner-badge {
             background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
             color: var(--dark-bg);
-            padding: 1rem 2rem;
-            border-radius: 16px;
+            padding: 1.5rem 3rem;
+            border-radius: 20px;
             font-weight: 800;
-            font-size: clamp(0.8rem, 2vw, 1.1rem);
+            font-size: 1.2rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            letter-spacing: 4px;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
             animation: glow 2s ease-in-out infinite alternate;
-            font-family: 'Orbitron', sans-serif;
+            font-family: var(--font-primary);
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-            width: 100%;
-            max-width: 300px;
+        }
+
+        [data-theme="nature"] .partner-badge {
+            background: linear-gradient(135deg, var(--brown) 0%, var(--terracotta) 100%);
+            color: white;
+            text-transform: none;
+            letter-spacing: 3px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            box-shadow: 0 4px 20px rgba(139, 115, 85, 0.3);
+            clip-path: none;
+            border-radius: 30px;
+            animation: none;
+        }
+
+        [data-theme="botanique"] .partner-badge {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 100%);
+            color: white;
+            text-transform: none;
+            letter-spacing: 2px;
+            font-weight: 600;
+            font-family: var(--font-secondary);
+            box-shadow: 0 4px 25px rgba(27, 67, 50, 0.25);
+            clip-path: none;
+            border-radius: 30px 15px 30px 15px;
+            animation: none;
         }
 
         @keyframes glow {
@@ -805,16 +1687,31 @@
         }
 
         .partner-text h3 {
-            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #fff;
         }
 
+        [data-theme="nature"] .partner-text h3 {
+            color: var(--brown-dark);
+            font-weight: 400;
+        }
+
+        [data-theme="botanique"] .partner-text h3 {
+            color: var(--forest);
+            font-weight: 600;
+        }
+
         .partner-text p {
             color: rgba(255, 255, 255, 0.8);
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-size: 1.3rem;
             max-width: 600px;
             margin-bottom: 1.5rem;
+        }
+
+        [data-theme="nature"] .partner-text p,
+        [data-theme="botanique"] .partner-text p {
+            color: var(--text-secondary);
         }
 
         .partner-link {
@@ -824,12 +1721,28 @@
             color: var(--neon-green);
             text-decoration: none;
             font-weight: 700;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-size: 1.2rem;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
             border-bottom: 2px solid var(--neon-green);
             padding-bottom: 0.5rem;
+        }
+
+        [data-theme="nature"] .partner-link {
+            color: var(--brown);
+            border-bottom-color: var(--terracotta);
+            text-transform: none;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        [data-theme="botanique"] .partner-link {
+            color: var(--forest);
+            border-bottom-color: var(--leaf);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .partner-link:hover {
@@ -839,27 +1752,47 @@
             text-shadow: 0 0 20px var(--neon-cyan);
         }
 
+        [data-theme="nature"] .partner-link:hover {
+            color: var(--brown-dark);
+            border-color: var(--brown);
+            text-shadow: none;
+            gap: 0.8rem;
+        }
+
+        [data-theme="botanique"] .partner-link:hover {
+            color: var(--moss);
+            border-color: var(--forest);
+            text-shadow: none;
+            gap: 0.8rem;
+        }
+
         /* Contact Section */
         .contact {
-            padding: 5rem 4%;
-            width: 100%;
+            padding: 8rem 5%;
+        }
+
+        [data-theme="nature"] .contact {
+            background: var(--cream);
+        }
+
+        [data-theme="botanique"] .contact {
+            background: var(--light-mint);
         }
 
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr; /* 1 colonne par défaut */
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             max-width: 1000px;
             margin: 0 auto;
-            width: 100%;
         }
 
         .contact-card {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
+            border-radius: 20px;
+            padding: 3rem 2rem;
             text-align: center;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -867,10 +1800,25 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
             position: relative;
             overflow: hidden;
-            width: 100%;
+        }
+
+        [data-theme="nature"] .contact-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(139, 115, 85, 0.15);
+            border-radius: 30px;
+            color: var(--brown-dark);
+            box-shadow: var(--shadow-soft);
+        }
+
+        [data-theme="botanique"] .contact-card {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(64, 145, 108, 0.2);
+            border-radius: 35px 20px 35px 20px;
+            color: var(--forest);
+            box-shadow: var(--shadow-soft);
         }
 
         .contact-card::before {
@@ -885,56 +1833,112 @@
             transition: opacity 0.3s ease;
         }
 
+        [data-theme="nature"] .contact-card::before {
+            background: linear-gradient(135deg, transparent, rgba(201, 168, 124, 0.1), transparent);
+        }
+
+        [data-theme="botanique"] .contact-card::before {
+            background: linear-gradient(135deg, transparent, rgba(82, 183, 136, 0.1), transparent);
+        }
+
         .contact-card:hover::before {
             opacity: 1;
         }
 
         .contact-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
             border-color: var(--neon-green);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3), 0 0 30px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(0, 255, 136, 0.2);
+        }
+
+        [data-theme="nature"] .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--terracotta);
+            box-shadow: var(--shadow-medium);
+        }
+
+        [data-theme="botanique"] .contact-card:hover {
+            transform: translateY(-5px) rotate(-1deg);
+            border-color: var(--leaf);
+            box-shadow: var(--shadow-medium);
         }
 
         .contact-icon {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            font-size: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
             position: relative;
             z-index: 1;
         }
 
+        [data-theme="nature"] .contact-icon {
+            background: linear-gradient(135deg, var(--brown), var(--terracotta));
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        [data-theme="botanique"] .contact-icon {
+            background: linear-gradient(135deg, var(--forest), var(--moss));
+            border-radius: 30px 15px 30px 15px;
+            box-shadow: 0 4px 20px rgba(27, 67, 50, 0.25);
+        }
+
         .contact-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             position: relative;
             z-index: 1;
         }
 
         .contact-card p {
             color: rgba(255, 255, 255, 0.6);
-            font-size: 0.95rem;
+            font-size: 1rem;
             position: relative;
             z-index: 1;
-            word-break: break-all; /* Pour les emails longs */
+        }
+
+        [data-theme="nature"] .contact-card p {
+            color: var(--text-secondary);
+        }
+
+        [data-theme="botanique"] .contact-card p {
+            color: var(--text-secondary);
         }
 
         /* Footer */
         footer {
-            padding: 2rem 4%;
+            padding: 3rem 5%;
             text-align: center;
             border-top: 1px solid rgba(0, 255, 136, 0.2);
             background: rgba(0,0,0,0.5);
             color: rgba(255, 255, 255, 0.5);
-            font-family: 'Orbitron', sans-serif;
+            font-family: var(--font-primary);
             text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        [data-theme="nature"] footer {
+            background: var(--brown-dark);
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: none;
             letter-spacing: 1px;
-            font-size: clamp(0.7rem, 2vw, 0.85rem);
-            width: 100%;
+            font-family: var(--font-secondary);
+            border-top: none;
+        }
+
+        [data-theme="botanique"] footer {
+            background: var(--forest);
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: none;
+            letter-spacing: 0.5px;
+            font-family: var(--font-secondary);
+            border-top: none;
         }
 
         /* Animations */
@@ -951,195 +1955,122 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 10px;
         }
 
         ::-webkit-scrollbar-track {
             background: var(--dark-bg);
         }
 
+        [data-theme="nature"] ::-webkit-scrollbar-track {
+            background: var(--cream-dark);
+        }
+
+        [data-theme="botanique"] ::-webkit-scrollbar-track {
+            background: var(--cream-bot);
+        }
+
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(var(--neon-green), var(--neon-cyan));
-            border-radius: 4px;
+            background: linear-gradient(var(--accent-color), var(--accent-color));
+            border-radius: 5px;
         }
 
-        /* ==================== MEDIA QUERIES CORRIGÉES ==================== */
-
-        /* Tablette */
-        @media (min-width: 768px) {
-            .showcase-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .showcase-card.large,
-            .showcase-card.wide {
-                grid-column: span 2;
-            }
-            
-            .showcase-card.large .card-image,
-            .showcase-card.wide .card-image {
-                height: 400px;
-            }
-            
-            .contact-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .hero-content {
-                grid-template-columns: 1.2fr 1fr;
-            }
-            
-            .partner-content {
-                flex-direction: row;
-                text-align: left;
-                gap: 3rem;
-            }
+        [data-theme="nature"] ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--brown), var(--terracotta));
+            border-radius: 10px;
         }
 
-        /* Desktop */
-        @media (min-width: 1200px) {
-            .showcase-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .showcase-card.large {
-                grid-column: span 2;
-            }
-            
-            .showcase-card.wide {
-                grid-column: span 3;
-            }
-            
-            .showcase-card.large .card-image {
-                height: 450px;
-            }
-            
-            .showcase-card.wide .card-image {
-                height: 400px;
-            }
+        [data-theme="botanique"] ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--forest), var(--moss));
+            border-radius: 10px;
         }
 
-        /* Mobile - Corrections spécifiques */
-        @media (max-width: 767px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                flex-direction: column;
-                background: rgba(10, 10, 15, 0.98);
-                padding: 1.5rem;
-                backdrop-filter: blur(20px);
-                border-bottom: 2px solid var(--neon-green);
-                gap: 1rem;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
+        /* Leaf Animation for Botanique Theme */
+        @keyframes sway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        [data-theme="botanique"] .service-icon,
+        [data-theme="botanique"] .stat-icon {
+            animation: sway 3s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
-                gap: 2rem;
             }
-            
+
             .hero-text p {
                 border-left: none;
                 border-top: 3px solid var(--neon-green);
                 padding-left: 0;
-                padding-top: 1.5rem;
+                padding-top: 2rem;
             }
-            
-            .cta-group {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .hero-stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-            }
-            
-            .stat-card {
-                padding: 1rem 0.5rem;
-            }
-            
-            .services-grid {
-                grid-template-columns: 1fr; /* Une colonne sur petit mobile */
-            }
-            
-            .card-image {
-                height: 200px !important; /* Force la hauteur sur mobile */
-            }
-            
-            .image-overlay {
-                padding: 1.5rem 1rem 1rem;
-            }
-            
-            .project-cta {
-                padding: 2rem 1rem;
-            }
-        }
 
-        /* Très petits écrans */
-        @media (max-width: 480px) {
-            .hero {
-                padding-top: 6rem;
+            [data-theme="nature"] .hero-text p {
+                border-top: 2px solid var(--terracotta);
             }
-            
-            .hero-stats {
-                grid-template-columns: 1fr; /* Une seule colonne */
+
+            [data-theme="botanique"] .hero-text p {
+                border-top: 3px solid var(--leaf);
             }
-            
-            .services-grid {
+
+            .showcase-card.large,
+            .showcase-card.wide {
+                grid-column: span 1;
+            }
+
+            .card-image,
+            .showcase-card.large .card-image,
+            .showcase-card.wide .card-image {
+                height: 250px;
+            }
+
+            .showcase-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .service-card {
-                padding: 1.5rem 1rem;
+
+            .nav-links {
+                display: none;
             }
-            
-            .showcase-grid {
-                gap: 1rem;
+
+            .mobile-menu-btn {
+                display: block;
             }
-            
-            .stat-value {
-                font-size: 1.5rem;
+
+            .partner-content {
+                flex-direction: column;
+                gap: 2rem;
             }
-            
-            .stat-label {
-                font-size: 0.7rem;
+
+            .theme-switcher {
+                order: -1;
+                margin-bottom: 1rem;
             }
         }
 
-        /* Fix pour éviter les débordements dus au viewport sur mobile */
-        @media screen and (max-width: 768px) {
-            body {
-                position: relative;
-                width: 100%;
-                overflow-x: hidden;
-            }
-            
-            img {
-                max-width: 100%;
-                height: auto;
-            }
+        @media (max-width: 480px) {
+            .loader-text { font-size: 2rem; }
+            .cta-group { flex-direction: column; width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+            .hero-stats { grid-template-columns: 1fr; }
         }
     </style>
+<base target="_blank">
 </head>
-<body>
+<body data-theme="night-city">
+    <!-- Effects -->
     <div class="cyber-grid"></div>
     <div class="scanline"></div>
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
 
+    <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader-text">Jard1Terieur</div>
         <div class="loader-bar">
@@ -1147,28 +2078,55 @@
         </div>
     </div>
 
+    <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <img src="images/logograineneo.png" alt="Logo" class="logo-icon">
-                <a href="#" class="logo">Jard1Terieur</a>
-            </div>
-            <ul class="nav-links" id="navLinks">
+            <a href="#" class="logo-container">
+                <img src="images/logograineneo.png" alt="Jard1Terieur Logo" class="logo-icon">
+            </a>
+            <a href="#" class="logo">Jard1Terieur</a>
+
+            <ul class="nav-links">
                 <li><a href="#services">Services</a></li>
                 <li><a href="#projet">Projet</a></li>
                 <li><a href="#partner">Partenaire</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="mobile-menu-btn" onclick="toggleMenu()">Menu</button>
+
+            <!-- Theme Switcher -->
+            <div class="theme-switcher" id="themeSwitcher">
+                <button class="theme-btn" onclick="toggleThemeMenu()">
+                    <span id="currentThemeIcon">🏙️</span>
+                    <span id="currentThemeText">Night City</span>
+                    <span>▼</span>
+                </button>
+                <div class="theme-dropdown" id="themeDropdown">
+                    <div class="theme-option active" onclick="setTheme('night-city')">
+                        <span class="theme-icon">🏙️</span>
+                        <span>Night City</span>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('nature')">
+                        <span class="theme-icon">🍂</span>
+                        <span>Nature</span>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('botanique')">
+                        <span class="theme-icon">🌿</span>
+                        <span>Botanique</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="mobile-menu-btn">Menu</button>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Jard1Terieur</h1>
                 <div class="subtitle">/// Culture_Intelligente.exe</div>
-                <p>Installation d'équipement horticole, assistance IA pour le jardinage, et accompagnement personnalisé pour vos projets de culture intérieure.</p>
+                <p>Installation d'équipement horticole, assistance IA pour le jardinage, et accompagnement personnalisé pour vos projets de culture intérieure. De la physique à Beauvais au digital sur Discord.</p>
                 <div class="cta-group">
                     <a href="#contact" class="btn btn-primary">Initier_Contact</a>
                     <a href="#projet" class="btn btn-secondary">Voir_MicroJardin</a>
@@ -1199,115 +2157,244 @@
         </div>
     </section>
 
+    <!-- Services Section -->
     <section class="services" id="services">
         <div class="container">
             <div class="section-header fade-in">
                 <span class="section-tag">Modules Disponibles</span>
                 <h2>Services Jard1Terieur</h2>
-                <p>Architecture technique et accompagnement sur mesure</p>
+                <p>Architecture technique et accompagnement sur mesure pour votre installation indoor</p>
             </div>
-            
+
             <div class="services-grid">
                 <div class="service-card fade-in">
                     <div class="service-icon">🏠</div>
                     <h3>Installation Physique</h3>
-                    <p>Intervention à <span class="highlight">Beauvais</span>. Setup clé en main.</p>
+                    <p>Intervention à <span class="highlight">Beauvais et alentours</span>. Installation complète : LED, irrigation, ventilation, contrôle climatique. Setup clé en main.</p>
                 </div>
+
                 <div class="service-card fade-in">
                     <div class="service-icon">💻</div>
                     <h3>Assistance Distance</h3>
-                    <p>Support via <span class="highlight">Discord</span> et visio.</p>
+                    <p>Support via <span class="highlight">Discord & Visio</span>. Diagnostic à distance, optimisation des paramètres, dépannage temps réel par partage d'écran.</p>
                 </div>
+
                 <div class="service-card fade-in">
                     <div class="service-icon">🧠</div>
                     <h3>IA & Optimisation</h3>
-                    <p>Exploitation de l'<span class="highlight">intelligence artificielle</span>.</p>
+                    <p>Exploitation de l'<span class="highlight">intelligence artificielle</span> pour prédire les besoins de vos plantes, analyser vos données environnementales et maximiser vos rendements.</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🎯</div>
+                    <h3>Conseil Stratégique</h3>
+                    <p>Audit personnalisé de votre espace. <span class="highlight">Planification technique</span> adaptée à vos contraintes (budget, surface, objectifs de production).</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🛒</div>
+                    <h3>Avantages Matériel</h3>
+                    <p>Accès à des <span class="highlight">tarifs professionnels</span> sur le matériel de culture via notre réseau de fournisseurs partenaires.</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">📊</div>
+                    <h3>Formation ERP</h3>
+                    <p>Maîtrisez <span class="highlight">MicroJardin Génétique Bureau</span>. Formation complète au système de gestion horticole le plus avancé du marché.</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Project Showcase Section -->
     <section class="project-showcase" id="projet">
         <div class="container">
             <div class="section-header fade-in">
                 <span class="badge-project">Systeme ERP</span>
                 <h2>MicroJardin Génétique Bureau</h2>
-                <p>L'interface de gestion horticole innovante</p>
+                <p>L'interface de gestion horticole qui transforme votre placard de culture en laboratoire de Night City</p>
             </div>
 
             <div class="showcase-grid">
+                <!-- Manifeste -->
                 <div class="showcase-card large fade-in">
                     <div class="card-image">
-                        <img src="images/01.png" alt="Manifeste" loading="lazy">
+                        <img src="images/01.png" alt="Manifeste MicroJardin - De Jardinier à Ingénieur" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag">Philosophie</span>
                             <h3>De Jardinier à Ingénieur</h3>
-                            <p>La plante est un flux de données.</p>
+                            <p>La plante n'est plus seulement un organisme biologique, elle est un flux de données. Abandonnez les carnets papier pour la Botanique 4.0.</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Interface Principale -->
                 <div class="showcase-card fade-in">
                     <div class="card-image">
-                        <img src="images/00.png" alt="Interface" loading="lazy">
+                        <img src="images/00.png" alt="Interface MicroJardin Génétique Bureau" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag">Dashboard</span>
                             <h3>Command Center</h3>
-                            <p>Vue d'ensemble temps réel.</p>
+                            <p>Gestion centralisée des CroBox, FloBox et BoutureBox. Vue d'ensemble temps réel de votre laboratoire.</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- CroBox -->
                 <div class="showcase-card fade-in">
                     <div class="card-image">
-                        <img src="images/02.png" alt="CroBox" loading="lazy">
+                        <img src="images/02.png" alt="CroBox - Sanctuaire de croissance" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag cro">CroBox</span>
                             <h3>Phase Végétative</h3>
-                            <p>Gestion automatique des stocks.</p>
+                            <p>Indicateur J+x, gestion automatique des stocks graines/substrats. Structure forgée pour la future récolte.</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Stocks -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/03.png" alt="Gestion des stocks" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag">Logistique</span>
+                            <h3>Inventaire Dynamique</h3>
+                            <p>Déduction automatique à chaque plantation. Banque de graines et gestion des contenants connectée.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FloBox -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/05.png" alt="FloBox - Production" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag flo">FloBox</span>
+                            <h3>Switch & Floraison</h3>
+                            <p>Transition J+x vers F+x. Déclaration du sexe (Mâle/Femelle). Maximisation du rendement.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoring -->
+                <div class="showcase-card large fade-in">
+                    <div class="card-image">
+                        <img src="images/06.png" alt="Monitoring Environnemental" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag">Analytics</span>
+                            <h3>Symbiose Numérique</h3>
+                            <p>Monitoring environnemental temps réel. Courbes de température, humidité et VPD. Technologie qui nous reconnecte à la nature.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interface Vocale -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/07.png" alt="Interface vocale 24 virgule 5 65" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag voice">Vocal AI</span>
+                            <h3>Interface Mains-Libres</h3>
+                            <p>"24 virgule 5 65" → 24.5°C / 65%. Saisie vocale chirurgicale sans interruption de vos tâches.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LoveBox -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/08.png" alt="LoveBox Breeding" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag love">LoveBox</span>
+                            <h3>Boucle de Breeding</h3>
+                            <p>Sélection variétale, pollinisation contrôlée, génération de nouvelles graines. L'ingénierie génétique à domicile.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Génétique -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/09.png" alt="LoveBox Créateur de Lignées" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag love">Création</span>
+                            <h3>Créateur de Lignées</h3>
+                            <p>Ne cultivez plus pour récolter, cultivez pour créer. Croisement Variété A (Mâle) x Variété B (Femelle).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roue Écosystème -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/10.png" alt="La Roue du MicroJardin" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag cycle">Écosystème</span>
+                            <h3>La Roue du MicroJardin</h3>
+                            <p>Boucle fermée : Stockage → CroBox → BoutureBox → FloBox → Récolte → LoveBox. Rien ne se perd.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gestion Stock Avancée -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/11.png" alt="Alertes de stock" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag alert">Alertes</span>
+                            <h3>Fin des Ruptures</h3>
+                            <p>Calcul dynamique de consommation. Alerte orange sous seuil critique de 20L. Commande automatique.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Local First -->
                 <div class="showcase-card wide fade-in">
                     <div class="card-image">
-                        <img src="images/12.png" alt="Local-First" loading="lazy">
+                        <img src="images/12.png" alt="Souveraineté Numérique Local-First" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag privacy">Sécurité</span>
                             <h3>Local-First & Souveraineté</h3>
-                            <p>Vos données vous appartiennent.</p>
+                            <p>Vos données vous appartiennent. Pas de Cloud. Pas de surveillance. APK local. LocalStorage only.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- CTA Projet -->
             <div class="project-cta fade-in">
                 <div class="cta-content">
                     <h3>Prêt à devenir Ingénieur Génétique ?</h3>
-                    <p>MicroJardin Génétique Bureau disponible via mes services.</p>
-                    <a href="mailto:jard1terieur@gmail.com" class="btn btn-primary">En savoir plus →</a>
+                    <p>MicroJardin Génétique Bureau est disponible via mes services d'installation et de configuration personnalisée.</p>
+                    <a href="mailto:jard1terieur@gmail.com" target="_blank" class="btn btn-primary">
+                        En savoir plus →
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Partner Section -->
     <section class="partner" id="partner">
         <div class="partner-content">
-            <div class="partner-badge">Partenaire</div>
+            <div class="partner-badge">Partenaire Stratégique</div>
             <div class="partner-text">
                 <h3>MicroJardin.fr</h3>
-                <p>La référence du jardinage intérieur connecté.</p>
-                <a href="https://microjardin.fr" target="_blank" class="partner-link">Visiter →</a>
+                <p>La référence du jardinage intérieur connecté et innovant. Retrouvez ressources, outils et protocoles avancés pour maîtriser votre culture.</p>
+                <a href="https://microjardin.fr" target="_blank" class="partner-link">
+                    Visiter MicroJardin.fr →
+                </a>
             </div>
         </div>
     </section>
 
+    <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="container">
             <div class="section-header fade-in">
                 <span class="section-tag">Connexion</span>
                 <h2>Établir le Contact</h2>
-                <p>Choisissez votre canal de communication</p>
+                <p>Choisissez votre canal de communication préféré</p>
             </div>
 
             <div class="contact-grid">
@@ -1315,36 +2402,92 @@
                     <div class="contact-icon">✉️</div>
                     <h3>Email Direct</h3>
                     <p>jard1terieur@gmail.com</p>
+                    <small>Réponse sous 24h</small>
                 </a>
 
                 <a href="https://discord.gg/36R8G2XQ52" target="_blank" class="contact-card fade-in">
                     <div class="contact-icon">💬</div>
-                    <h3>Discord</h3>
+                    <h3>Serveur Discord</h3>
                     <p>Communauté & Support</p>
+                    <small>Assistance temps réel</small>
                 </a>
 
                 <div class="contact-card fade-in">
                     <div class="contact-icon">📍</div>
                     <h3>Zone d'Action</h3>
-                    <p>Beauvais (60)</p>
+                    <p>Beauvais +</p>
+                    <small>Interventions sur site</small>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Jard1Terieur | Culture Indoor & IA_</p>
+        <p>&copy; 2026 Jard1Terieur | Assistance Systeme / Gestion Culture en Interieur | Cultivons l'excellence ensembles_</p>
     </footer>
 
     <script>
+        // Theme Management
+        const themes = {
+            'night-city': { icon: '🏙️', name: 'Night City' },
+            'nature': { icon: '🍂', name: 'Nature' },
+            'botanique': { icon: '🌿', name: 'Botanique' }
+        };
+
+        let currentTheme = localStorage.getItem('jard1terieur-theme') || 'night-city';
+        document.body.setAttribute('data-theme', currentTheme);
+        updateThemeButton();
+
+        function toggleThemeMenu() {
+            document.getElementById('themeSwitcher').classList.toggle('active');
+        }
+
+        function setTheme(themeName) {
+            currentTheme = themeName;
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('jard1terieur-theme', themeName);
+            updateThemeButton();
+            updateActiveOption();
+            document.getElementById('themeSwitcher').classList.remove('active');
+
+            // Trigger reflow for animations
+            document.body.style.animation = 'none';
+            document.body.offsetHeight;
+            document.body.style.animation = null;
+        }
+
+        function updateThemeButton() {
+            const theme = themes[currentTheme];
+            document.getElementById('currentThemeIcon').textContent = theme.icon;
+            document.getElementById('currentThemeText').textContent = theme.name;
+        }
+
+        function updateActiveOption() {
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.textContent.includes(themes[currentTheme].name)) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        // Close theme dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const switcher = document.getElementById('themeSwitcher');
+            if (!switcher.contains(event.target)) {
+                switcher.classList.remove('active');
+            }
+        });
+
         // Loader
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-            }, 1500);
+            }, 2000);
         });
 
-        // Navbar scroll
+        // Navbar scroll effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -1353,25 +2496,6 @@
                 navbar.classList.remove('scrolled');
             }
         });
-
-        // Mobile menu toggle
-        function toggleMenu() {
-            const navLinks = document.getElementById('navLinks');
-            if (navLinks.style.display === 'flex') {
-                navLinks.style.display = 'none';
-            } else {
-                navLinks.style.display = 'flex';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.background = 'rgba(10, 10, 15, 0.98)';
-                navLinks.style.padding = '1.5rem';
-                navLinks.style.backdropFilter = 'blur(20px)';
-                navLinks.style.borderBottom = '2px solid var(--neon-green)';
-            }
-        }
 
         // Intersection Observer
         const observerOptions = {
@@ -1399,27 +2523,49 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
-                    // Ferme le menu mobile si ouvert
-                    document.getElementById('navLinks').style.display = 'none';
                 }
             });
         });
 
-        // Parallax léger sur desktop uniquement
-        if (window.innerWidth > 768) {
-            document.addEventListener('mousemove', (e) => {
-                const orbs = document.querySelectorAll('.gradient-orb');
-                const x = e.clientX / window.innerWidth;
-                const y = e.clientY / window.innerHeight;
+        // Mobile menu
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
 
-                orbs.forEach((orb, index) => {
-                    const speed = (index + 1) * 30;
-                    const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
-                    const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
-                    orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
-                });
+        mobileBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'rgba(10, 10, 15, 0.98)';
+                navLinks.style.padding = '2rem';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.borderBottom = '2px solid var(--accent-color)';
+                navLinks.style.gap = '1.5rem';
+
+                if (currentTheme === 'nature') {
+                    navLinks.style.background = 'rgba(245, 241, 232, 0.98)';
+                } else if (currentTheme === 'botanique') {
+                    navLinks.style.background = 'rgba(241, 248, 233, 0.98)';
+                }
+            }
+        });
+
+        // Parallax mouse effect
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.gradient-orb');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 30;
+                const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
+                const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
+                orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
             });
-        }
+        });
     </script>
 </body>
 </html>
