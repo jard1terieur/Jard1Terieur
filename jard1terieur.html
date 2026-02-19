@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jard1Terieur | Culture Indoor & IA</title>
+    <meta name="description" content="Services d'aide à la culture indoor, installation d'équipement horticole et assistance IA. MicroJardin Génétique Bureau - ERP horticole.">
+
+    <!-- Favicon standard -->
+    <link rel="icon" type="image/png" href="images/logograineneo.png">
+    <!-- Favicon pour Apple devices -->
+    <link rel="apple-touch-icon" href="images/logograineneo.png">
+    <!-- Favicon pour Android/Chrome -->
+    <link rel="shortcut icon" href="images/logograineneo.png" type="image/png">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #00ff88;
+            --neon-cyan: #00d9ff;
+            --neon-pink: #ff006e;
+            --neon-purple: #c77dff;
+            --neon-yellow: #ffbe0b;
+            --dark-bg: #0a0a0f;
+            --panel-bg: rgba(20, 20, 30, 0.6);
+            --grid-color: rgba(0, 255, 136, 0.05);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Grid & Effects */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3) 50%);
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .orb-1 { width: 600px; height: 600px; background: var(--neon-green); top: -200px; left: -200px; }
+        .orb-2 { width: 500px; height: 500px; background: var(--neon-purple); bottom: -150px; right: -150px; animation-delay: -5s; }
+        .orb-3 { width: 400px; height: 400px; background: var(--neon-cyan); top: 40%; left: 60%; animation-delay: -10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Typography */
+        h1, h2, h3, .logo {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden { opacity: 0; pointer-events: none; }
+        
+        .loader-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glitch 2s infinite;
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            width: 0%;
+            animation: load 2s ease-out forwards;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        @keyframes load { to { width: 100%; } }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
+            transition: all 0.3s ease;
+        }
+        
+        .logo-container:hover .logo-icon {
+            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8));
+            transform: rotate(5deg) scale(1.1);
+        }
+		
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 1rem 5%;
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 5px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-decoration: none;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a::before {
+            content: '>';
+            position: absolute;
+            left: -15px;
+            opacity: 0;
+            color: var(--neon-green);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-green);
+            transform: translateX(10px);
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+            left: -10px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: 2px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 0.5rem 1rem;
+            font-family: 'Orbitron', sans-serif;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10rem 5% 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-green) 50%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.8rem;
+            color: var(--neon-cyan);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            border-left: 3px solid var(--neon-green);
+            padding-left: 2rem;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
+            color: var(--dark-bg);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+            border-color: var(--neon-green);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--neon-green);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-green), transparent, var(--neon-cyan));
+            z-index: -1;
+            border-radius: 18px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--neon-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            border: 1px solid var(--neon-cyan);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            background: rgba(0, 217, 255, 0.1);
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.2);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: var(--neon-green);
+            font-weight: 700;
+        }
+
+        /* Project Showcase Section */
+        .project-showcase {
+            padding: 8rem 5%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.03) 50%, transparent 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-showcase::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-green), var(--neon-cyan), transparent);
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        .badge-project {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            color: var(--dark-bg);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .showcase-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .showcase-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--neon-green);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 50px rgba(0, 255, 136, 0.2);
+            z-index: 10;
+        }
+
+        .showcase-card.large {
+            grid-column: span 2;
+        }
+
+        .showcase-card.wide {
+            grid-column: span 2;
+        }
+
+        .card-image {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .showcase-card.large .card-image,
+        .showcase-card.wide .card-image {
+            height: 450px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.5s ease;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .showcase-card:hover .card-image img {
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1.2);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10,10,15,0.98), rgba(10,10,15,0.8), transparent);
+            padding: 3rem 2rem 2rem;
+            color: white;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            border-top: 2px solid var(--neon-green);
+        }
+
+        .showcase-card:hover .image-overlay {
+            transform: translateY(0);
+            background: linear-gradient(to top, rgba(10,10,15,1), rgba(10,10,15,0.9), transparent);
+        }
+
+        .image-overlay h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .image-overlay p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', sans-serif;
+            border: 1px solid;
+        }
+
+        .tag.cro { color: var(--neon-green); border-color: var(--neon-green); background: rgba(0, 255, 136, 0.1); box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+        .tag.flo { color: var(--neon-purple); border-color: var(--neon-purple); background: rgba(199, 125, 255, 0.1); box-shadow: 0 0 10px rgba(199, 125, 255, 0.2); }
+        .tag.love { color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(255, 0, 110, 0.1); box-shadow: 0 0 10px rgba(255, 0, 110, 0.2); }
+        .tag.voice { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 217, 255, 0.1); box-shadow: 0 0 10px rgba(0, 217, 255, 0.2); }
+        .tag.cycle { color: var(--neon-yellow); border-color: var(--neon-yellow); background: rgba(255, 190, 11, 0.1); }
+        .tag.alert { color: #ff8500; border-color: #ff8500; background: rgba(255, 133, 0, 0.1); }
+        .tag.privacy { color: #00f5ff; border-color: #00f5ff; background: rgba(0, 245, 255, 0.1); }
+
+        .project-cta {
+            margin-top: 5rem;
+            text-align: center;
+            padding: 4rem;
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(0, 255, 136, 0.1);
+        }
+
+        .project-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,136,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .cta-content p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Partner Section */
+        .partner {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, rgba(0, 208, 132, 0.05) 0%, rgba(0, 168, 232, 0.05) 100%);
+            border-top: 2px solid rgba(0, 255, 136, 0.2);
+            border-bottom: 2px solid rgba(0, 255, 136, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0, 255, 136, 0.02) 10px,
+                rgba(0, 255, 136, 0.02) 20px
+            );
+        }
+
+        .partner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .partner-badge {
+            background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
+            color: var(--dark-bg);
+            padding: 1.5rem 3rem;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+            font-family: 'Orbitron', sans-serif;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(0, 255, 136, 0.4); }
+            to { box-shadow: 0 0 40px rgba(0, 255, 136, 0.8); }
+        }
+
+        .partner-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .partner-text p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+
+        .partner-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-green);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--neon-green);
+            padding-bottom: 0.5rem;
+        }
+
+        .partner-link:hover {
+            gap: 1rem;
+            color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            text-shadow: 0 0 20px var(--neon-cyan);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 5%;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .contact-card:hover::before {
+            opacity: 1;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-card h3 {
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-card p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            background: rgba(0,0,0,0.5);
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--neon-green), var(--neon-cyan));
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text p {
+                border-left: none;
+                border-top: 3px solid var(--neon-green);
+                padding-left: 0;
+                padding-top: 2rem;
+            }
+
+            .showcase-card.large,
+            .showcase-card.wide {
+                grid-column: span 1;
+            }
+
+            .card-image,
+            .showcase-card.large .card-image,
+            .showcase-card.wide .card-image {
+                height: 250px;
+            }
+
+            .showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .partner-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loader-text { font-size: 2rem; }
+            .cta-group { flex-direction: column; width: 100%; }
+            .btn { width: 100%; justify-content: center; }
+            .hero-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Effects -->
+    <div class="cyber-grid"></div>
+    <div class="scanline"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-text">Jard1Terieur</div>
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+		    <a href="#" class="logo-container">
+            <img src="images/logograineneo.png" alt="Jard1Terieur Logo" class="logo-icon">
+            <a href="#" class="logo">Jard1Terieur</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projet">Projet</a></li>
+                <li><a href="#partner">Partenaire</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn">Menu</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Jard1Terieur</h1>
+                <div class="subtitle">/// Culture_Intelligente.exe</div>
+                <p>Installation d'équipement horticole, assistance IA pour le jardinage, et accompagnement personnalisé pour vos projets de culture intérieure. De la physique à Beauvais au digital sur Discord.</p>
+                <div class="cta-group">
+                    <a href="#contact" class="btn btn-primary">Initier_Contact</a>
+                    <a href="#projet" class="btn btn-secondary">Voir_MicroJardin</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">🌱</div>
+                    <div class="stat-value">IA+</div>
+                    <div class="stat-label">Assistance Botanique</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Support Distance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📍</div>
+                    <div class="stat-value">60</div>
+                    <div class="stat-label">Beauvais</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🧬</div>
+                    <div class="stat-value">ERP</div>
+                    <div class="stat-label">Génétique Bureau</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-tag">Modules Disponibles</span>
+                <h2>Services Jard1Terieur</h2>
+                <p>Architecture technique et accompagnement sur mesure pour votre installation indoor</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card fade-in">
+                    <div class="service-icon">🏠</div>
+                    <h3>Installation Physique</h3>
+                    <p>Intervention à <span class="highlight">Beauvais et alentours</span>. Installation complète : LED, irrigation, ventilation, contrôle climatique. Setup clé en main.</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">💻</div>
+                    <h3>Assistance Distance</h3>
+                    <p>Support via <span class="highlight">Discord & Visio</span>. Diagnostic à distance, optimisation des paramètres, dépannage temps réel par partage d'écran.</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🧠</div>
+                    <h3>IA & Optimisation</h3>
+                    <p>Exploitation de l'<span class="highlight">intelligence artificielle</span> pour prédire les besoins de vos plantes, analyser vos données environnementales et maximiser vos rendements.</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🎯</div>
+                    <h3>Conseil Stratégique</h3>
+                    <p>Audit personnalisé de votre espace. <span class="highlight">Planification technique</span> adaptée à vos contraintes (budget, surface, objectifs de production).</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">🛒</div>
+                    <h3>Avantages Matériel</h3>
+                    <p>Accès à des <span class="highlight">tarifs professionnels</span> sur le matériel de culture via notre réseau de fournisseurs partenaires.</p>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-icon">📊</div>
+                    <h3>Formation ERP</h3>
+                    <p>Maîtrisez <span class="highlight">MicroJardin Génétique Bureau</span>. Formation complète au système de gestion horticole le plus avancé du marché.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Showcase Section -->
+    <section class="project-showcase" id="projet">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="badge-project">Systeme ERP</span>
+                <h2>MicroJardin Génétique Bureau</h2>
+                <p>L'interface de gestion horticole qui transforme votre placard de culture en laboratoire de Night City</p>
+            </div>
+
+            <div class="showcase-grid">
+                <!-- Manifeste -->
+                <div class="showcase-card large fade-in">
+                    <div class="card-image">
+                        <img src="images/01.png" alt="Manifeste MicroJardin - De Jardinier à Ingénieur" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag">Philosophie</span>
+                            <h3>De Jardinier à Ingénieur</h3>
+                            <p>La plante n'est plus seulement un organisme biologique, elle est un flux de données. Abandonnez les carnets papier pour la Botanique 4.0.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interface Principale -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/00.png" alt="Interface MicroJardin Génétique Bureau" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag">Dashboard</span>
+                            <h3>Command Center</h3>
+                            <p>Gestion centralisée des CroBox, FloBox et BoutureBox. Vue d'ensemble temps réel de votre laboratoire.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CroBox -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/02.png" alt="CroBox - Sanctuaire de croissance" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag cro">CroBox</span>
+                            <h3>Phase Végétative</h3>
+                            <p>Indicateur J+x, gestion automatique des stocks graines/substrats. Structure forgée pour la future récolte.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stocks -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/03.png" alt="Gestion des stocks" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag">Logistique</span>
+                            <h3>Inventaire Dynamique</h3>
+                            <p>Déduction automatique à chaque plantation. Banque de graines et gestion des contenants connectée.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FloBox -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/05.png" alt="FloBox - Production" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag flo">FloBox</span>
+                            <h3>Switch & Floraison</h3>
+                            <p>Transition J+x vers F+x. Déclaration du sexe (Mâle/Femelle). Maximisation du rendement.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monitoring -->
+                <div class="showcase-card large fade-in">
+                    <div class="card-image">
+                        <img src="images/06.png" alt="Monitoring Environnemental" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag">Analytics</span>
+                            <h3>Symbiose Numérique</h3>
+                            <p>Monitoring environnemental temps réel. Courbes de température, humidité et VPD. Technologie qui nous reconnecte à la nature.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interface Vocale -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/07.png" alt="Interface vocale 24 virgule 5 65" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag voice">Vocal AI</span>
+                            <h3>Interface Mains-Libres</h3>
+                            <p>"24 virgule 5 65" → 24.5°C / 65%. Saisie vocale chirurgicale sans interruption de vos tâches.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LoveBox -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/08.png" alt="LoveBox Breeding" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag love">LoveBox</span>
+                            <h3>Boucle de Breeding</h3>
+                            <p>Sélection variétale, pollinisation contrôlée, génération de nouvelles graines. L'ingénierie génétique à domicile.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Génétique -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/09.png" alt="LoveBox Créateur de Lignées" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag love">Création</span>
+                            <h3>Créateur de Lignées</h3>
+                            <p>Ne cultivez plus pour récolter, cultivez pour créer. Croisement Variété A (Mâle) x Variété B (Femelle).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roue Écosystème -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/10.png" alt="La Roue du MicroJardin" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag cycle">Écosystème</span>
+                            <h3>La Roue du MicroJardin</h3>
+                            <p>Boucle fermée : Stockage → CroBox → BoutureBox → FloBox → Récolte → LoveBox. Rien ne se perd.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gestion Stock Avancée -->
+                <div class="showcase-card fade-in">
+                    <div class="card-image">
+                        <img src="images/11.png" alt="Alertes de stock" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag alert">Alertes</span>
+                            <h3>Fin des Ruptures</h3>
+                            <p>Calcul dynamique de consommation. Alerte orange sous seuil critique de 20L. Commande automatique.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Local First -->
+                <div class="showcase-card wide fade-in">
+                    <div class="card-image">
+                        <img src="images/12.png" alt="Souveraineté Numérique Local-First" loading="lazy">
+                        <div class="image-overlay">
+                            <span class="tag privacy">Sécurité</span>
+                            <h3>Local-First & Souveraineté</h3>
+                            <p>Vos données vous appartiennent. Pas de Cloud. Pas de surveillance. APK local. LocalStorage only.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Projet -->
+            <div class="project-cta fade-in">
+                <div class="cta-content">
+                    <h3>Prêt à devenir Ingénieur Génétique ?</h3>
+                    <p>MicroJardin Génétique Bureau est disponible via mes services d'installation et de configuration personnalisée.</p>
+                    <a href="mailto:jard1terieur@gmail.com" target="_blank" class="btn btn-primary">
+                        En savoir plus →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partner Section -->
+    <section class="partner" id="partner">
+        <div class="partner-content">
+            <div class="partner-badge">Partenaire Stratégique</div>
+            <div class="partner-text">
+                <h3>MicroJardin.fr</h3>
+                <p>La référence du jardinage intérieur connecté et innovant. Retrouvez ressources, outils et protocoles avancés pour maîtriser votre culture.</p>
+                <a href="https://microjardin.fr" target="_blank" class="partner-link">
+                    Visiter MicroJardin.fr →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <span class="section-tag">Connexion</span>
+                <h2>Établir le Contact</h2>
+                <p>Choisissez votre canal de communication préféré</p>
+            </div>
+
+            <div class="contact-grid">
+                <a href="mailto:jard1terieur@gmail.com" class="contact-card fade-in">
+                    <div class="contact-icon">✉️</div>
+                    <h3>Email Direct</h3>
+                    <p>jard1terieur@gmail.com</p>
+                    <small>Réponse sous 24h</small>
+                </a>
+
+                <a href="https://discord.gg/36R8G2XQ52" target="_blank" class="contact-card fade-in">
+                    <div class="contact-icon">💬</div>
+                    <h3>Serveur Discord</h3>
+                    <p>Communauté & Support</p>
+                    <small>Assistance temps réel</small>
+                </a>
+
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">📍</div>
+                    <h3>Zone d'Action</h3>
+                    <p>Beauvais +</p>
+                    <small>Interventions sur site</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Jard1Terieur | Assistance Systeme / Gestion Culture en Interieur | Cultivons l'excellence ensembles_</p>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'rgba(10, 10, 15, 0.98)';
+                navLinks.style.padding = '2rem';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.borderBottom = '2px solid var(--neon-green)';
+                navLinks.style.gap = '1.5rem';
+            }
+        });
+
+        // Parallax mouse effect
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.gradient-orb');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 30;
+                const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
+                const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
+                orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            });
+        });
+    </script>
+</body>
+</html>
