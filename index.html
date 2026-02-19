@@ -2,16 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Jard1Terieur | Culture Indoor & IA</title>
-    <meta name="description" content="Services d'aide à la culture indoor, installation d'équipement horticole et assistance IA. MicroJardin Génétique Bureau - ERP horticole.">
-
-    <!-- Favicon standard -->
-    <link rel="icon" type="image/png" href="images/logograineneo.png">
-    <!-- Favicon pour Apple devices -->
-    <link rel="apple-touch-icon" href="images/logograineneo.png">
-    <!-- Favicon pour Android/Chrome -->
-    <link rel="shortcut icon" href="images/logograineneo.png" type="image/png">
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
@@ -33,15 +25,17 @@
             --grid-color: rgba(0, 255, 136, 0.05);
         }
 
-        body {
+        html, body {
             font-family: 'Rajdhani', sans-serif;
             background: var(--dark-bg);
             color: #fff;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Empêche le débordement horizontal */
             line-height: 1.6;
+            width: 100%;
+            max-width: 100vw;
         }
 
-        /* Background Grid & Effects */
+        /* CORRECTION : Background Grid & Effects */
         .cyber-grid {
             position: fixed;
             top: 0;
@@ -53,8 +47,7 @@
                 linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
             background-size: 50px 50px;
             z-index: -2;
-            perspective: 1000px;
-            transform-style: preserve-3d;
+            pointer-events: none; /* Évite les problèmes d'interaction */
         }
 
         .scanline {
@@ -77,11 +70,12 @@
             z-index: -1;
             opacity: 0.4;
             animation: float 20s infinite ease-in-out;
+            max-width: 100%; /* Limite la taille des orbes */
         }
 
-        .orb-1 { width: 600px; height: 600px; background: var(--neon-green); top: -200px; left: -200px; }
-        .orb-2 { width: 500px; height: 500px; background: var(--neon-purple); bottom: -150px; right: -150px; animation-delay: -5s; }
-        .orb-3 { width: 400px; height: 400px; background: var(--neon-cyan); top: 40%; left: 60%; animation-delay: -10s; }
+        .orb-1 { width: 50vw; height: 50vw; max-width: 600px; max-height: 600px; background: var(--neon-green); top: -10%; left: -10%; }
+        .orb-2 { width: 40vw; height: 40vw; max-width: 500px; max-height: 500px; background: var(--neon-purple); bottom: -10%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 35vw; height: 35vw; max-width: 400px; max-height: 400px; background: var(--neon-cyan); top: 40%; left: 60%; animation-delay: -10s; }
 
         @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -89,11 +83,11 @@
             66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        /* Typography */
         h1, h2, h3, .logo {
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
+            word-wrap: break-word; /* Évite le débordement du texte */
         }
 
         /* Loader */
@@ -116,16 +110,17 @@
         
         .loader-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
+            font-size: clamp(1.5rem, 8vw, 3rem); /* Responsive */
             font-weight: 700;
             background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: glitch 2s infinite;
+            text-align: center;
         }
 
         .loader-bar {
-            width: 200px;
+            width: min(200px, 80%); /* Responsive */
             height: 4px;
             background: rgba(255,255,255,0.1);
             margin-top: 20px;
@@ -154,12 +149,13 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            flex-shrink: 0;
         }
         
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));
             transition: all 0.3s ease;
         }
@@ -174,8 +170,8 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 1.5rem 5%;
-            background: rgba(10, 10, 15, 0.8);
+            padding: 1rem 4%; /* Réduit sur mobile */
+            background: rgba(10, 10, 15, 0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(0, 255, 136, 0.2);
             z-index: 1000;
@@ -183,8 +179,8 @@
         }
 
         nav.scrolled {
-            padding: 1rem 5%;
-            background: rgba(10, 10, 15, 0.95);
+            padding: 0.8rem 4%;
+            background: rgba(10, 10, 15, 0.98);
             box-shadow: 0 5px 30px rgba(0,0,0,0.5);
         }
 
@@ -194,15 +190,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 4vw, 1.8rem); /* Responsive */
             font-weight: 700;
             color: var(--neon-green);
             text-decoration: none;
             text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
             position: relative;
+            white-space: nowrap;
         }
 
         .logo::after {
@@ -214,7 +212,7 @@
 
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: 2rem;
             list-style: none;
         }
 
@@ -222,11 +220,12 @@
             color: #fff;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             position: relative;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
+            white-space: nowrap;
         }
 
         .nav-links a::before {
@@ -257,68 +256,74 @@
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             text-transform: uppercase;
+            font-size: 0.8rem;
         }
 
-        /* Hero Section */
+        /* Hero Section - CORRECTIONS MAJEURES */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10rem 5% 5rem;
+            padding: 8rem 4% 4rem; /* Réduit le padding */
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .hero-content {
             max-width: 1400px;
+            width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 3rem;
             align-items: center;
         }
 
         .hero-text h1 {
-            font-size: clamp(3rem, 6vw, 5rem);
+            font-size: clamp(2rem, 5vw, 4.5rem); /* Responsive */
             line-height: 1.1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             background: linear-gradient(135deg, #fff 0%, var(--neon-green) 50%, var(--neon-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             position: relative;
+            word-wrap: break-word;
         }
 
         .hero-text .subtitle {
-            font-size: 1.8rem;
+            font-size: clamp(1rem, 3vw, 1.5rem); /* Responsive */
             color: var(--neon-cyan);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
+            word-wrap: break-word;
         }
 
         .hero-text p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem); /* Responsive */
             color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             border-left: 3px solid var(--neon-green);
-            padding-left: 2rem;
+            padding-left: 1.5rem;
+            word-wrap: break-word;
         }
 
         .cta-group {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 1rem 2.5rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 4px;
             text-decoration: none;
             font-weight: 700;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
@@ -327,7 +332,9 @@
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: clamp(0.75rem, 1.5vw, 0.9rem); /* Responsive */
+            text-align: center;
+            justify-content: center;
         }
 
         .btn::before {
@@ -348,31 +355,32 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
             color: var(--dark-bg);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
             border-color: var(--neon-green);
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.6);
         }
 
         .btn-secondary {
             background: transparent;
             color: var(--neon-green);
             border-color: var(--neon-green);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
         }
 
         .btn-secondary:hover {
             background: rgba(0, 255, 136, 0.1);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
         }
 
         .hero-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 1rem;
+            width: 100%;
         }
 
         .stat-card {
@@ -380,7 +388,7 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.2);
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem 1rem;
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
@@ -411,20 +419,20 @@
         }
 
         .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
         }
 
         .stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
+            font-size: clamp(1.2rem, 3vw, 1.8rem); /* Responsive */
             color: var(--neon-green);
             text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .stat-label {
             color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 1.5vw, 0.85rem); /* Responsive */
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 0.5rem;
@@ -432,18 +440,22 @@
 
         /* Services Section */
         .services {
-            padding: 8rem 5%;
+            padding: 5rem 4%; /* Réduit */
             position: relative;
+            width: 100%;
+            overflow: hidden;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 5rem;
+            margin-bottom: 3rem;
+            width: 100%;
         }
 
         .section-tag {
@@ -451,18 +463,18 @@
             color: var(--neon-cyan);
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             margin-bottom: 1rem;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 2vw, 0.9rem); /* Responsive */
             border: 1px solid var(--neon-cyan);
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
             background: rgba(0, 217, 255, 0.1);
         }
 
         .section-header h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1.5rem;
+            font-size: clamp(1.5rem, 4vw, 3rem); /* Responsive */
+            margin-bottom: 1rem;
             background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -470,26 +482,29 @@
 
         .section-header p {
             color: rgba(255, 255, 255, 0.6);
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             max-width: 600px;
             margin: 0 auto;
+            padding: 0 1rem;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Réduit de 350px à 280px */
+            gap: 1.5rem;
+            width: 100%;
         }
 
         .service-card {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.1);
-            border-radius: 20px;
-            padding: 3rem 2rem;
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .service-card::before {
@@ -505,9 +520,9 @@
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             border-color: rgba(0, 255, 136, 0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 40px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 30px rgba(0, 255, 136, 0.1);
         }
 
         .service-card:hover::before {
@@ -515,8 +530,8 @@
         }
 
         .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             display: inline-block;
             transition: transform 0.3s ease;
         }
@@ -526,14 +541,15 @@
         }
 
         .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            margin-bottom: 0.5rem;
             color: #fff;
         }
 
         .service-card p {
             color: rgba(255, 255, 255, 0.7);
             line-height: 1.6;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
 
         .highlight {
@@ -541,12 +557,13 @@
             font-weight: 700;
         }
 
-        /* Project Showcase Section */
+        /* Project Showcase Section - CORRECTIONS CRITIQUES */
         .project-showcase {
-            padding: 8rem 5%;
+            padding: 5rem 4%;
             background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.03) 50%, transparent 100%);
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .project-showcase::before {
@@ -564,60 +581,61 @@
             display: inline-block;
             background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
             color: var(--dark-bg);
-            padding: 0.8rem 2rem;
+            padding: 0.6rem 1.5rem;
             border-radius: 50px;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
             font-family: 'Orbitron', sans-serif;
         }
 
         .showcase-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
+            grid-template-columns: 1fr; /* Par défaut 1 colonne sur mobile */
+            gap: 1.5rem;
+            margin-top: 3rem;
+            width: 100%;
         }
 
+        /* CORRECTION : Les cartes large/wide ne doivent pas dépasser sur mobile */
         .showcase-card {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 20px;
+            border-radius: 16px;
             overflow: hidden;
             transition: all 0.4s ease;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 100%; /* Empêche le débordement */
+        }
+
+        .showcase-card.large,
+        .showcase-card.wide {
+            grid-column: span 1; /* CORRECTION : Reset sur mobile */
         }
 
         .showcase-card:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-5px) scale(1.01);
             border-color: var(--neon-green);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 50px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), 0 0 30px rgba(0, 255, 136, 0.2);
             z-index: 10;
-        }
-
-        .showcase-card.large {
-            grid-column: span 2;
-        }
-
-        .showcase-card.wide {
-            grid-column: span 2;
         }
 
         .card-image {
             position: relative;
             width: 100%;
-            height: 350px;
+            height: 250px; /* Hauteur fixe plus petite */
             overflow: hidden;
         }
 
         .showcase-card.large .card-image,
         .showcase-card.wide .card-image {
-            height: 450px;
+            height: 250px; /* Même hauteur sur mobile */
         }
 
         .card-image img {
@@ -626,12 +644,11 @@
             object-fit: cover;
             object-position: center;
             transition: transform 0.5s ease;
-            filter: brightness(0.9) contrast(1.1);
+            display: block; /* Évite l'espace blanc sous l'image */
         }
 
         .showcase-card:hover .card-image img {
-            transform: scale(1.1);
-            filter: brightness(1) contrast(1.2);
+            transform: scale(1.05);
         }
 
         .image-overlay {
@@ -639,65 +656,58 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(10,10,15,0.98), rgba(10,10,15,0.8), transparent);
-            padding: 3rem 2rem 2rem;
+            background: linear-gradient(to top, rgba(10,10,15,0.98), rgba(10,10,15,0.85), transparent);
+            padding: 2rem 1.5rem 1.5rem;
             color: white;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
+            transform: translateY(0); /* Toujours visible sur mobile */
             border-top: 2px solid var(--neon-green);
         }
 
-        .showcase-card:hover .image-overlay {
-            transform: translateY(0);
-            background: linear-gradient(to top, rgba(10,10,15,1), rgba(10,10,15,0.9), transparent);
-        }
-
         .image-overlay h3 {
-            font-size: 1.8rem;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
             margin-bottom: 0.5rem;
             color: var(--neon-green);
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
         }
 
         .image-overlay p {
-            font-size: 1rem;
-            color: rgba(255,255,255,0.8);
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            color: rgba(255,255,255,0.9);
             line-height: 1.4;
-            font-weight: 500;
         }
 
         .tag {
             display: inline-block;
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 4px;
-            font-size: 0.8rem;
+            font-size: clamp(0.65rem, 1.5vw, 0.75rem);
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
             font-family: 'Orbitron', sans-serif;
             border: 1px solid;
         }
 
-        .tag.cro { color: var(--neon-green); border-color: var(--neon-green); background: rgba(0, 255, 136, 0.1); box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
-        .tag.flo { color: var(--neon-purple); border-color: var(--neon-purple); background: rgba(199, 125, 255, 0.1); box-shadow: 0 0 10px rgba(199, 125, 255, 0.2); }
-        .tag.love { color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(255, 0, 110, 0.1); box-shadow: 0 0 10px rgba(255, 0, 110, 0.2); }
-        .tag.voice { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 217, 255, 0.1); box-shadow: 0 0 10px rgba(0, 217, 255, 0.2); }
+        .tag.cro { color: var(--neon-green); border-color: var(--neon-green); background: rgba(0, 255, 136, 0.1); }
+        .tag.flo { color: var(--neon-purple); border-color: var(--neon-purple); background: rgba(199, 125, 255, 0.1); }
+        .tag.love { color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(255, 0, 110, 0.1); }
+        .tag.voice { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 217, 255, 0.1); }
         .tag.cycle { color: var(--neon-yellow); border-color: var(--neon-yellow); background: rgba(255, 190, 11, 0.1); }
         .tag.alert { color: #ff8500; border-color: #ff8500; background: rgba(255, 133, 0, 0.1); }
         .tag.privacy { color: #00f5ff; border-color: #00f5ff; background: rgba(0, 245, 255, 0.1); }
 
         .project-cta {
-            margin-top: 5rem;
+            margin-top: 3rem;
             text-align: center;
-            padding: 4rem;
+            padding: 2rem 1.5rem;
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 2px solid rgba(0, 255, 136, 0.3);
-            border-radius: 30px;
+            border-radius: 20px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 0 60px rgba(0, 255, 136, 0.1);
+            width: 100%;
         }
 
         .project-cta::before {
@@ -717,16 +727,16 @@
         }
 
         .cta-content h3 {
-            font-size: 2.5rem;
+            font-size: clamp(1.3rem, 4vw, 2rem);
             margin-bottom: 1rem;
             color: #fff;
-            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
         .cta-content p {
             color: rgba(255,255,255,0.8);
-            margin-bottom: 2rem;
-            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -734,12 +744,13 @@
 
         /* Partner Section */
         .partner {
-            padding: 6rem 5%;
+            padding: 4rem 4%;
             background: linear-gradient(135deg, rgba(0, 208, 132, 0.05) 0%, rgba(0, 168, 232, 0.05) 100%);
             border-top: 2px solid rgba(0, 255, 136, 0.2);
             border-bottom: 2px solid rgba(0, 255, 136, 0.2);
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .partner::before {
@@ -762,28 +773,30 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 4rem;
+            gap: 2rem;
             position: relative;
             z-index: 1;
-            flex-wrap: wrap;
-            justify-content: center;
             text-align: center;
+            width: 100%;
         }
 
         .partner-badge {
             background: linear-gradient(135deg, var(--neon-green) 0%, var(--neon-cyan) 100%);
             color: var(--dark-bg);
-            padding: 1.5rem 3rem;
-            border-radius: 20px;
+            padding: 1rem 2rem;
+            border-radius: 16px;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: clamp(0.8rem, 2vw, 1.1rem);
             text-transform: uppercase;
-            letter-spacing: 4px;
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+            letter-spacing: 3px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
             animation: glow 2s ease-in-out infinite alternate;
             font-family: 'Orbitron', sans-serif;
             clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            width: 100%;
+            max-width: 300px;
         }
 
         @keyframes glow {
@@ -792,14 +805,14 @@
         }
 
         .partner-text h3 {
-            font-size: 2.5rem;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
             margin-bottom: 1rem;
             color: #fff;
         }
 
         .partner-text p {
             color: rgba(255, 255, 255, 0.8);
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
             max-width: 600px;
             margin-bottom: 1.5rem;
         }
@@ -811,7 +824,7 @@
             color: var(--neon-green);
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -828,23 +841,25 @@
 
         /* Contact Section */
         .contact {
-            padding: 8rem 5%;
+            padding: 5rem 4%;
+            width: 100%;
         }
 
         .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr; /* 1 colonne par défaut */
+            gap: 1.5rem;
             max-width: 1000px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .contact-card {
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 20px;
-            padding: 3rem 2rem;
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
             text-decoration: none;
@@ -852,9 +867,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         .contact-card::before {
@@ -874,49 +890,51 @@
         }
 
         .contact-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             border-color: var(--neon-green);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 40px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3), 0 0 30px rgba(0, 255, 136, 0.2);
         }
 
         .contact-icon {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
-            border-radius: 20px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            font-size: 1.8rem;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
             position: relative;
             z-index: 1;
         }
 
         .contact-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             position: relative;
             z-index: 1;
         }
 
         .contact-card p {
             color: rgba(255, 255, 255, 0.6);
-            font-size: 1rem;
+            font-size: 0.95rem;
             position: relative;
             z-index: 1;
+            word-break: break-all; /* Pour les emails longs */
         }
 
         /* Footer */
         footer {
-            padding: 3rem 5%;
+            padding: 2rem 4%;
             text-align: center;
             border-top: 1px solid rgba(0, 255, 136, 0.2);
             background: rgba(0,0,0,0.5);
             color: rgba(255, 255, 255, 0.5);
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
+            width: 100%;
         }
 
         /* Animations */
@@ -933,7 +951,7 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -942,69 +960,186 @@
 
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(var(--neon-green), var(--neon-cyan));
-            border-radius: 5px;
+            border-radius: 4px;
         }
 
-        /* Responsive */
-        @media (max-width: 968px) {
+        /* ==================== MEDIA QUERIES CORRIGÉES ==================== */
+
+        /* Tablette */
+        @media (min-width: 768px) {
+            .showcase-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .showcase-card.large,
+            .showcase-card.wide {
+                grid-column: span 2;
+            }
+            
+            .showcase-card.large .card-image,
+            .showcase-card.wide .card-image {
+                height: 400px;
+            }
+            
+            .contact-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .hero-content {
+                grid-template-columns: 1.2fr 1fr;
+            }
+            
+            .partner-content {
+                flex-direction: row;
+                text-align: left;
+                gap: 3rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1200px) {
+            .showcase-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .showcase-card.large {
+                grid-column: span 2;
+            }
+            
+            .showcase-card.wide {
+                grid-column: span 3;
+            }
+            
+            .showcase-card.large .card-image {
+                height: 450px;
+            }
+            
+            .showcase-card.wide .card-image {
+                height: 400px;
+            }
+        }
+
+        /* Mobile - Corrections spécifiques */
+        @media (max-width: 767px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: rgba(10, 10, 15, 0.98);
+                padding: 1.5rem;
+                backdrop-filter: blur(20px);
+                border-bottom: 2px solid var(--neon-green);
+                gap: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
             .hero-content {
                 grid-template-columns: 1fr;
                 text-align: center;
+                gap: 2rem;
             }
-
+            
             .hero-text p {
                 border-left: none;
                 border-top: 3px solid var(--neon-green);
                 padding-left: 0;
-                padding-top: 2rem;
+                padding-top: 1.5rem;
             }
-
-            .showcase-card.large,
-            .showcase-card.wide {
-                grid-column: span 1;
-            }
-
-            .card-image,
-            .showcase-card.large .card-image,
-            .showcase-card.wide .card-image {
-                height: 250px;
-            }
-
-            .showcase-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .partner-content {
+            
+            .cta-group {
                 flex-direction: column;
-                gap: 2rem;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            
+            .stat-card {
+                padding: 1rem 0.5rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr; /* Une colonne sur petit mobile */
+            }
+            
+            .card-image {
+                height: 200px !important; /* Force la hauteur sur mobile */
+            }
+            
+            .image-overlay {
+                padding: 1.5rem 1rem 1rem;
+            }
+            
+            .project-cta {
+                padding: 2rem 1rem;
             }
         }
 
+        /* Très petits écrans */
         @media (max-width: 480px) {
-            .loader-text { font-size: 2rem; }
-            .cta-group { flex-direction: column; width: 100%; }
-            .btn { width: 100%; justify-content: center; }
-            .hero-stats { grid-template-columns: 1fr; }
+            .hero {
+                padding-top: 6rem;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr; /* Une seule colonne */
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .service-card {
+                padding: 1.5rem 1rem;
+            }
+            
+            .showcase-grid {
+                gap: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+            
+            .stat-label {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Fix pour éviter les débordements dus au viewport sur mobile */
+        @media screen and (max-width: 768px) {
+            body {
+                position: relative;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            
+            img {
+                max-width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Effects -->
     <div class="cyber-grid"></div>
     <div class="scanline"></div>
     <div class="gradient-orb orb-1"></div>
     <div class="gradient-orb orb-2"></div>
     <div class="gradient-orb orb-3"></div>
 
-    <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader-text">Jard1Terieur</div>
         <div class="loader-bar">
@@ -1012,29 +1147,28 @@
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
-		    <a href="#" class="logo-container">
-            <img src="images/logograineneo.png" alt="Jard1Terieur Logo" class="logo-icon">
-            <a href="#" class="logo">Jard1Terieur</a>
-            <ul class="nav-links">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <img src="images/logograineneo.png" alt="Logo" class="logo-icon">
+                <a href="#" class="logo">Jard1Terieur</a>
+            </div>
+            <ul class="nav-links" id="navLinks">
                 <li><a href="#services">Services</a></li>
                 <li><a href="#projet">Projet</a></li>
                 <li><a href="#partner">Partenaire</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="mobile-menu-btn">Menu</button>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">Menu</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
                 <h1>Jard1Terieur</h1>
                 <div class="subtitle">/// Culture_Intelligente.exe</div>
-                <p>Installation d'équipement horticole, assistance IA pour le jardinage, et accompagnement personnalisé pour vos projets de culture intérieure. De la physique à Beauvais au digital sur Discord.</p>
+                <p>Installation d'équipement horticole, assistance IA pour le jardinage, et accompagnement personnalisé pour vos projets de culture intérieure.</p>
                 <div class="cta-group">
                     <a href="#contact" class="btn btn-primary">Initier_Contact</a>
                     <a href="#projet" class="btn btn-secondary">Voir_MicroJardin</a>
@@ -1065,244 +1199,115 @@
         </div>
     </section>
 
-    <!-- Services Section -->
     <section class="services" id="services">
         <div class="container">
             <div class="section-header fade-in">
                 <span class="section-tag">Modules Disponibles</span>
                 <h2>Services Jard1Terieur</h2>
-                <p>Architecture technique et accompagnement sur mesure pour votre installation indoor</p>
+                <p>Architecture technique et accompagnement sur mesure</p>
             </div>
             
             <div class="services-grid">
                 <div class="service-card fade-in">
                     <div class="service-icon">🏠</div>
                     <h3>Installation Physique</h3>
-                    <p>Intervention à <span class="highlight">Beauvais et alentours</span>. Installation complète : LED, irrigation, ventilation, contrôle climatique. Setup clé en main.</p>
+                    <p>Intervention à <span class="highlight">Beauvais</span>. Setup clé en main.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon">💻</div>
                     <h3>Assistance Distance</h3>
-                    <p>Support via <span class="highlight">Discord & Visio</span>. Diagnostic à distance, optimisation des paramètres, dépannage temps réel par partage d'écran.</p>
+                    <p>Support via <span class="highlight">Discord</span> et visio.</p>
                 </div>
-
                 <div class="service-card fade-in">
                     <div class="service-icon">🧠</div>
                     <h3>IA & Optimisation</h3>
-                    <p>Exploitation de l'<span class="highlight">intelligence artificielle</span> pour prédire les besoins de vos plantes, analyser vos données environnementales et maximiser vos rendements.</p>
-                </div>
-
-                <div class="service-card fade-in">
-                    <div class="service-icon">🎯</div>
-                    <h3>Conseil Stratégique</h3>
-                    <p>Audit personnalisé de votre espace. <span class="highlight">Planification technique</span> adaptée à vos contraintes (budget, surface, objectifs de production).</p>
-                </div>
-
-                <div class="service-card fade-in">
-                    <div class="service-icon">🛒</div>
-                    <h3>Avantages Matériel</h3>
-                    <p>Accès à des <span class="highlight">tarifs professionnels</span> sur le matériel de culture via notre réseau de fournisseurs partenaires.</p>
-                </div>
-
-                <div class="service-card fade-in">
-                    <div class="service-icon">📊</div>
-                    <h3>Formation ERP</h3>
-                    <p>Maîtrisez <span class="highlight">MicroJardin Génétique Bureau</span>. Formation complète au système de gestion horticole le plus avancé du marché.</p>
+                    <p>Exploitation de l'<span class="highlight">intelligence artificielle</span>.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Project Showcase Section -->
     <section class="project-showcase" id="projet">
         <div class="container">
             <div class="section-header fade-in">
                 <span class="badge-project">Systeme ERP</span>
                 <h2>MicroJardin Génétique Bureau</h2>
-                <p>L'interface de gestion horticole qui transforme votre placard de culture en laboratoire de Night City</p>
+                <p>L'interface de gestion horticole innovante</p>
             </div>
 
             <div class="showcase-grid">
-                <!-- Manifeste -->
                 <div class="showcase-card large fade-in">
                     <div class="card-image">
-                        <img src="images/01.png" alt="Manifeste MicroJardin - De Jardinier à Ingénieur" loading="lazy">
+                        <img src="images/01.png" alt="Manifeste" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag">Philosophie</span>
                             <h3>De Jardinier à Ingénieur</h3>
-                            <p>La plante n'est plus seulement un organisme biologique, elle est un flux de données. Abandonnez les carnets papier pour la Botanique 4.0.</p>
+                            <p>La plante est un flux de données.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Interface Principale -->
                 <div class="showcase-card fade-in">
                     <div class="card-image">
-                        <img src="images/00.png" alt="Interface MicroJardin Génétique Bureau" loading="lazy">
+                        <img src="images/00.png" alt="Interface" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag">Dashboard</span>
                             <h3>Command Center</h3>
-                            <p>Gestion centralisée des CroBox, FloBox et BoutureBox. Vue d'ensemble temps réel de votre laboratoire.</p>
+                            <p>Vue d'ensemble temps réel.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- CroBox -->
                 <div class="showcase-card fade-in">
                     <div class="card-image">
-                        <img src="images/02.png" alt="CroBox - Sanctuaire de croissance" loading="lazy">
+                        <img src="images/02.png" alt="CroBox" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag cro">CroBox</span>
                             <h3>Phase Végétative</h3>
-                            <p>Indicateur J+x, gestion automatique des stocks graines/substrats. Structure forgée pour la future récolte.</p>
+                            <p>Gestion automatique des stocks.</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Stocks -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/03.png" alt="Gestion des stocks" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag">Logistique</span>
-                            <h3>Inventaire Dynamique</h3>
-                            <p>Déduction automatique à chaque plantation. Banque de graines et gestion des contenants connectée.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FloBox -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/05.png" alt="FloBox - Production" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag flo">FloBox</span>
-                            <h3>Switch & Floraison</h3>
-                            <p>Transition J+x vers F+x. Déclaration du sexe (Mâle/Femelle). Maximisation du rendement.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Monitoring -->
-                <div class="showcase-card large fade-in">
-                    <div class="card-image">
-                        <img src="images/06.png" alt="Monitoring Environnemental" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag">Analytics</span>
-                            <h3>Symbiose Numérique</h3>
-                            <p>Monitoring environnemental temps réel. Courbes de température, humidité et VPD. Technologie qui nous reconnecte à la nature.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interface Vocale -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/07.png" alt="Interface vocale 24 virgule 5 65" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag voice">Vocal AI</span>
-                            <h3>Interface Mains-Libres</h3>
-                            <p>"24 virgule 5 65" → 24.5°C / 65%. Saisie vocale chirurgicale sans interruption de vos tâches.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LoveBox -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/08.png" alt="LoveBox Breeding" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag love">LoveBox</span>
-                            <h3>Boucle de Breeding</h3>
-                            <p>Sélection variétale, pollinisation contrôlée, génération de nouvelles graines. L'ingénierie génétique à domicile.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Génétique -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/09.png" alt="LoveBox Créateur de Lignées" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag love">Création</span>
-                            <h3>Créateur de Lignées</h3>
-                            <p>Ne cultivez plus pour récolter, cultivez pour créer. Croisement Variété A (Mâle) x Variété B (Femelle).</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Roue Écosystème -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/10.png" alt="La Roue du MicroJardin" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag cycle">Écosystème</span>
-                            <h3>La Roue du MicroJardin</h3>
-                            <p>Boucle fermée : Stockage → CroBox → BoutureBox → FloBox → Récolte → LoveBox. Rien ne se perd.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Gestion Stock Avancée -->
-                <div class="showcase-card fade-in">
-                    <div class="card-image">
-                        <img src="images/11.png" alt="Alertes de stock" loading="lazy">
-                        <div class="image-overlay">
-                            <span class="tag alert">Alertes</span>
-                            <h3>Fin des Ruptures</h3>
-                            <p>Calcul dynamique de consommation. Alerte orange sous seuil critique de 20L. Commande automatique.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Local First -->
                 <div class="showcase-card wide fade-in">
                     <div class="card-image">
-                        <img src="images/12.png" alt="Souveraineté Numérique Local-First" loading="lazy">
+                        <img src="images/12.png" alt="Local-First" loading="lazy">
                         <div class="image-overlay">
                             <span class="tag privacy">Sécurité</span>
                             <h3>Local-First & Souveraineté</h3>
-                            <p>Vos données vous appartiennent. Pas de Cloud. Pas de surveillance. APK local. LocalStorage only.</p>
+                            <p>Vos données vous appartiennent.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- CTA Projet -->
             <div class="project-cta fade-in">
                 <div class="cta-content">
                     <h3>Prêt à devenir Ingénieur Génétique ?</h3>
-                    <p>MicroJardin Génétique Bureau est disponible via mes services d'installation et de configuration personnalisée.</p>
-                    <a href="mailto:jard1terieur@gmail.com" target="_blank" class="btn btn-primary">
-                        En savoir plus →
-                    </a>
+                    <p>MicroJardin Génétique Bureau disponible via mes services.</p>
+                    <a href="mailto:jard1terieur@gmail.com" class="btn btn-primary">En savoir plus →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Partner Section -->
     <section class="partner" id="partner">
         <div class="partner-content">
-            <div class="partner-badge">Partenaire Stratégique</div>
+            <div class="partner-badge">Partenaire</div>
             <div class="partner-text">
                 <h3>MicroJardin.fr</h3>
-                <p>La référence du jardinage intérieur connecté et innovant. Retrouvez ressources, outils et protocoles avancés pour maîtriser votre culture.</p>
-                <a href="https://microjardin.fr" target="_blank" class="partner-link">
-                    Visiter MicroJardin.fr →
-                </a>
+                <p>La référence du jardinage intérieur connecté.</p>
+                <a href="https://microjardin.fr" target="_blank" class="partner-link">Visiter →</a>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="container">
             <div class="section-header fade-in">
                 <span class="section-tag">Connexion</span>
                 <h2>Établir le Contact</h2>
-                <p>Choisissez votre canal de communication préféré</p>
+                <p>Choisissez votre canal de communication</p>
             </div>
 
             <div class="contact-grid">
@@ -1310,29 +1315,25 @@
                     <div class="contact-icon">✉️</div>
                     <h3>Email Direct</h3>
                     <p>jard1terieur@gmail.com</p>
-                    <small>Réponse sous 24h</small>
                 </a>
 
                 <a href="https://discord.gg/36R8G2XQ52" target="_blank" class="contact-card fade-in">
                     <div class="contact-icon">💬</div>
-                    <h3>Serveur Discord</h3>
+                    <h3>Discord</h3>
                     <p>Communauté & Support</p>
-                    <small>Assistance temps réel</small>
                 </a>
 
                 <div class="contact-card fade-in">
                     <div class="contact-icon">📍</div>
                     <h3>Zone d'Action</h3>
-                    <p>Beauvais +</p>
-                    <small>Interventions sur site</small>
+                    <p>Beauvais (60)</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Jard1Terieur | Assistance Systeme / Gestion Culture en Interieur | Cultivons l'excellence ensembles_</p>
+        <p>&copy; 2026 Jard1Terieur | Culture Indoor & IA_</p>
     </footer>
 
     <script>
@@ -1340,10 +1341,10 @@
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('loader').classList.add('hidden');
-            }, 2000);
+            }, 1500);
         });
 
-        // Navbar scroll effect
+        // Navbar scroll
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -1352,6 +1353,25 @@
                 navbar.classList.remove('scrolled');
             }
         });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.background = 'rgba(10, 10, 15, 0.98)';
+                navLinks.style.padding = '1.5rem';
+                navLinks.style.backdropFilter = 'blur(20px)';
+                navLinks.style.borderBottom = '2px solid var(--neon-green)';
+            }
+        }
 
         // Intersection Observer
         const observerOptions = {
@@ -1379,43 +1399,27 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    // Ferme le menu mobile si ouvert
+                    document.getElementById('navLinks').style.display = 'none';
                 }
             });
         });
 
-        // Mobile menu
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileBtn.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-            if (navLinks.style.display === 'flex') {
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.background = 'rgba(10, 10, 15, 0.98)';
-                navLinks.style.padding = '2rem';
-                navLinks.style.backdropFilter = 'blur(20px)';
-                navLinks.style.borderBottom = '2px solid var(--neon-green)';
-                navLinks.style.gap = '1.5rem';
-            }
-        });
+        // Parallax léger sur desktop uniquement
+        if (window.innerWidth > 768) {
+            document.addEventListener('mousemove', (e) => {
+                const orbs = document.querySelectorAll('.gradient-orb');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
 
-        // Parallax mouse effect
-        document.addEventListener('mousemove', (e) => {
-            const orbs = document.querySelectorAll('.gradient-orb');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-
-            orbs.forEach((orb, index) => {
-                const speed = (index + 1) * 30;
-                const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
-                const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
-                orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                orbs.forEach((orb, index) => {
+                    const speed = (index + 1) * 30;
+                    const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
+                    const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
+                    orb.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                });
             });
-        });
+        }
     </script>
 </body>
 </html>
