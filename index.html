@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail BVS Deal & BVS Go</title>
+    <style>
+        /* Importation d'une police moderne */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Arrière-plan animé */
+            background: linear-gradient(-45deg, #1e3c72, #2a5298, #ff6a00, #ee0979);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Effet Glassmorphism pour le conteneur principal */
+        .portal-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem 4rem;
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            /* Animation d'apparition */
+            animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        .links-grid {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        /* Style des cartes / liens */
+        .portal-link {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 280px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Effet de brillance au survol */
+        .portal-link::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .portal-link:hover::before {
+            left: 100%;
+        }
+
+        .portal-link:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .portal-link h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .portal-link p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Section contact */
+        .contact-info {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: fadeIn 2s ease forwards;
+            opacity: 0;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info a {
+            color: #ffda79;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            transition: color 0.3s;
+        }
+
+        .contact-info a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* Responsif pour mobile */
+        @media (max-width: 600px) {
+            .portal-container {
+                padding: 2rem 1.5rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .links-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .portal-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="portal-container">
+        <h1>BVS Deal</h1>
+        <p class="subtitle">Sélectionnez votre destination</p>
+
+        <div class="links-grid">
+            <a href="https://bvsdeal.fr" target="_blank" class="portal-link">
+                <h2>BVS Deal</h2>
+                <p>Découvrez nos meilleures offres et accédez au site officiel.</p>
+            </a>
+            
+            <a href="https://bvsgo-app.web.app/" target="_blank" class="portal-link">
+                <h2>BVS Go App</h2>
+                <p>Ouvrez l'application web interactive BVS Go.</p>
+            </a>
+        </div>
+
+        <div class="contact-info">
+            <p>Pour toute question ou achat, contactez-nous :</p>
+            <a href="mailto:beauvaisdeal@gmail.com">beauvaisdeal@gmail.com</a>
+        </div>
+    </div>
+
+</body>
+</html>
