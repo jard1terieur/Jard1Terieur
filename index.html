@@ -3,330 +3,833 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portail BVS Deal & BVS Go</title>
+    <title>JARD1TERIEUR — Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Importation d'une police moderne */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
-
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(-45deg, #1e3c72, #2a5298, #ff6a00, #ee0979);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Conteneur principal */
-        .portal-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 3rem 4rem;
-            text-align: center;
-            max-width: 800px;
-            width: 90%;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
-            animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(50px);
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes slideUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        p.subtitle {
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            font-weight: 300;
-            opacity: 0.9;
-        }
-
-        .links-grid {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-
-        /* Cartes cliquables */
-        .portal-card {
-            cursor: pointer;
-            color: white;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 2rem;
-            border-radius: 15px;
-            width: 280px;
-            transition: all 0.4s ease;
-            position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            text-align: center;
+            background: #000;
+            font-family: 'Rajdhani', sans-serif;
+            cursor: crosshair;
         }
 
-        .portal-card::before {
+        /* === UNIVERS CYPHER — BACKGROUND === */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* === SCANLINES & NOISE === */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0) 50%,
+                rgba(0,255,255,0.03) 50%
+            );
+            background-size: 100% 4px;
+            z-index: 10;
+            pointer-events: none;
+            animation: scanlineMove 0.1s linear infinite;
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 11;
+            pointer-events: none;
+        }
+
+        /* === UI OVERLAY === */
+        .ui-layer {
+            position: fixed;
+            z-index: 20;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .corner-tl, .corner-tr, .corner-bl, .corner-br {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .corner-tl {
+            top: 30px;
+            left: 30px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-tr {
+            top: 30px;
+            right: 30px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-bl {
+            bottom: 30px;
+            left: 30px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-br {
+            bottom: 30px;
+            right: 30px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .corner-tl::before, .corner-tr::before, .corner-bl::before, .corner-br::before {
             content: '';
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
         }
 
-        .portal-card:hover::before { left: 100%; }
+        .corner-tl::before { top: -2px; left: -2px; }
+        .corner-tr::before { top: -2px; right: -2px; }
+        .corner-bl::before { bottom: -2px; left: -2px; }
+        .corner-br::before { bottom: -2px; right: -2px; }
 
-        .portal-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            border-color: rgba(255, 255, 255, 0.6);
+        /* === HEADER === */
+        .header {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
         }
 
-        .portal-card h2 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 600;
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4);
+            letter-spacing: 8px;
+            animation: glitchText 3s infinite;
         }
 
-        .portal-card p {
+        .header .subtitle {
             font-size: 0.9rem;
-            font-weight: 300;
-            opacity: 0.8;
-            line-height: 1.4;
+            color: rgba(0, 255, 255, 0.6);
+            letter-spacing: 12px;
+            margin-top: 8px;
+            text-transform: uppercase;
         }
 
-        /* Section contact */
-        .contact-info {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 1.5rem;
-            border-radius: 12px;
-            font-size: 1rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            animation: fadeIn 2s ease forwards;
-            opacity: 0;
-            animation-delay: 0.5s;
+        .header .status {
+            margin-top: 15px;
+            font-size: 0.75rem;
+            color: rgba(0, 255, 255, 0.4);
+            letter-spacing: 4px;
         }
 
-        @keyframes fadeIn { to { opacity: 1; } }
-
-        .contact-info p { margin-bottom: 0.5rem; }
-        
-        .contact-info a {
-            color: #ffda79;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            transition: color 0.3s;
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff88;
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 10px #00ff88;
+            animation: pulse 2s infinite;
         }
 
-        .contact-info a:hover {
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
-        }
-
-        /* --- FENÊTRE MODALE --- */
-        .modal-overlay {
+        /* === CUBE CONTAINER === */
+        .scene {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-            z-index: 1000;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 320px;
+            height: 320px;
+            perspective: 1200px;
+            z-index: 5;
             pointer-events: auto;
         }
 
-        .modal-content {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 20px;
-            padding: 2.5rem;
-            max-width: 550px;
-            width: 90%;
-            text-align: left;
-            position: relative;
-            transform: translateY(30px) scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-            color: white;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: translateY(0) scale(1);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px; right: 20px;
-            font-size: 2rem;
-            line-height: 1;
-            cursor: pointer;
-            transition: color 0.3s, transform 0.3s;
-        }
-
-        .close-btn:hover {
-            color: #ffda79;
-            transform: scale(1.1);
-        }
-
-        .modal-content h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #ffda79;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .modal-content p {
-            font-size: 1rem;
-            line-height: 1.6;
-            font-weight: 300;
-            margin-bottom: 1rem;
-        }
-
-        .btn-visit {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 12px 25px;
-            background: linear-gradient(45deg, #ff6a00, #ee0979);
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-align: center;
+        .cube {
             width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            animation: autoRotate 20s infinite linear;
         }
 
-        .btn-visit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(238, 9, 121, 0.4);
+        .cube:hover {
+            animation-play-state: paused;
         }
 
-        /* Responsif mobile */
-        @media (max-width: 600px) {
-            .portal-container { padding: 2rem 1.5rem; }
-            h1 { font-size: 2.2rem; }
-            .links-grid { flex-direction: column; align-items: center; }
-            .portal-card { width: 100%; }
-            .modal-content { padding: 2rem; }
+        .cube-face {
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: rgba(0, 20, 40, 0.85);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: visible;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        /* Crystal glass effect */
+        .cube-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,255,255,0.05) 100%),
+                linear-gradient(225deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .cube-face::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 255, 0.1),
+                0 0 30px rgba(0, 255, 255, 0.2);
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Face positioning */
+        .face-front  { transform: rotateY(0deg) translateZ(160px); }
+        .face-back   { transform: rotateY(180deg) translateZ(160px); }
+        .face-right  { transform: rotateY(90deg) translateZ(160px); }
+        .face-left   { transform: rotateY(-90deg) translateZ(160px); }
+        .face-top    { transform: rotateX(90deg) translateZ(160px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(160px); }
+
+        /* Face content */
+        .face-icon {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
+            z-index: 4;
+        }
+
+        .face-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #00ffff;
+            text-align: center;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            z-index: 4;
+            padding: 0 20px;
+        }
+
+        .face-desc {
+            font-size: 0.75rem;
+            color: rgba(0, 255, 255, 0.6);
+            text-align: center;
+            margin-top: 8px;
+            letter-spacing: 1px;
+            z-index: 4;
+            padding: 0 20px;
+        }
+
+        .face-url {
+            font-size: 0.65rem;
+            color: rgba(0, 255, 255, 0.4);
+            margin-top: 15px;
+            letter-spacing: 2px;
+            z-index: 4;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .face-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 10px;
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: rgba(0, 255, 255, 0.7);
+            z-index: 4;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .badge-dev {
+            border-color: rgba(255, 165, 0, 0.5);
+            color: rgba(255, 165, 0, 0.8);
+            background: rgba(255, 165, 0, 0.1);
+        }
+
+        /* Hover effects */
+        .cube-face:hover {
+            background: rgba(0, 40, 80, 0.9);
+            border-color: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+        }
+
+        .cube-face:hover .face-title {
+            text-shadow: 0 0 30px rgba(0, 255, 255, 1);
+            color: #fff;
+        }
+
+        /* === HOLOGRAPHIC CLICK EFFECT === */
+        .hologram-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 255, 0.15);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 0.3s;
+        }
+
+        .cube-face.active .hologram-overlay {
+            opacity: 1;
+            animation: hologramPulse 0.6s ease-out;
+        }
+
+        .scan-bar {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            box-shadow: 0 0 20px #00ffff;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        .cube-face.active .scan-bar {
+            opacity: 1;
+            animation: scanDown 0.8s ease-out;
+        }
+
+        /* === CONTROLS === */
+        .controls {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            gap: 15px;
+            pointer-events: auto;
+        }
+
+        .ctrl-btn {
+            background: rgba(0, 20, 40, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #00ffff;
+            padding: 10px 25px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        /* === INFO PANEL === */
+        .info-panel {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .info-text {
+            font-size: 0.8rem;
+            color: rgba(0, 255, 255, 0.5);
+            letter-spacing: 3px;
+            animation: fadeInOut 3s infinite;
+        }
+
+        /* === DECO LINES === */
+        .deco-line {
+            position: fixed;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            z-index: 15;
+            pointer-events: none;
+        }
+
+        .deco-line.top { top: 100px; left: 10%; width: 80%; }
+        .deco-line.bottom { bottom: 100px; left: 10%; width: 80%; }
+
+        /* === ANIMATIONS === */
+        @keyframes autoRotate {
+            0% { transform: rotateX(-15deg) rotateY(0deg); }
+            16.66% { transform: rotateX(-15deg) rotateY(60deg); }
+            33.33% { transform: rotateX(-15deg) rotateY(120deg); }
+            50% { transform: rotateX(-15deg) rotateY(180deg); }
+            66.66% { transform: rotateX(-15deg) rotateY(240deg); }
+            83.33% { transform: rotateX(-15deg) rotateY(300deg); }
+            100% { transform: rotateX(-15deg) rotateY(360deg); }
+        }
+
+        @keyframes glitchText {
+            0%, 90%, 100% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4); }
+            92% { text-shadow: 2px 0 #ff00ff, -2px 0 #00ff00; transform: translateX(2px); }
+            94% { text-shadow: -2px 0 #ff00ff, 2px 0 #00ff00; transform: translateX(-2px); }
+            96% { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.4); transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        @keyframes hologramPulse {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes scanDown {
+            0% { top: 0; opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes scanlineMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .scene { width: 260px; height: 260px; }
+            .cube-face { width: 260px; height: 260px; }
+            .face-front  { transform: rotateY(0deg) translateZ(130px); }
+            .face-back   { transform: rotateY(180deg) translateZ(130px); }
+            .face-right  { transform: rotateY(90deg) translateZ(130px); }
+            .face-left   { transform: rotateY(-90deg) translateZ(130px); }
+            .face-top    { transform: rotateX(90deg) translateZ(130px); }
+            .face-bottom { transform: rotateX(-90deg) translateZ(130px); }
+            .header h1 { font-size: 1.5rem; letter-spacing: 4px; }
+            .face-title { font-size: 0.9rem; }
+            .face-icon { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="portal-container">
-        <h1>Nos Solutions</h1>
-        <p class="subtitle">Sélectionnez un projet pour en savoir plus</p>
+    <!-- Background Canvas -->
+    <canvas id="canvas-bg"></canvas>
 
-        <div class="links-grid">
-            <div class="portal-card" onclick="openModal('bvsdeal')">
-                <h2>BVS Deal</h2>
-                <p>La solution locale pour booster vos offres et fidéliser vos clients.</p>
-            </div>
-            
-            <div class="portal-card" onclick="openModal('bvsgo')">
-                <h2>BVS Go App</h2>
-                <p>L'application de livraison et click & collect clé en main.</p>
+    <!-- Scanlines & Vignette -->
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+
+    <!-- Decorative Lines -->
+    <div class="deco-line top"></div>
+    <div class="deco-line bottom"></div>
+
+    <!-- UI Layer -->
+    <div class="ui-layer">
+        <div class="corner-tl"></div>
+        <div class="corner-tr"></div>
+        <div class="corner-bl"></div>
+        <div class="corner-br"></div>
+
+        <div class="header">
+            <h1>JARD1TERIEUR</h1>
+            <div class="subtitle">Réseau Digital — Portfolio</div>
+            <div class="status">
+                <span class="status-dot"></span>
+                Système Opérationnel — Connexion Sécurisée
             </div>
         </div>
 
-        <div class="contact-info">
-            <p>Pour toute question ou achat, contactez-nous :</p>
-            <a href="mailto:beauvaisdeal@gmail.com">beauvaisdeal@gmail.com</a>
+        <div class="info-panel">
+            <div class="info-text">◄ Cliquez sur une face pour accéder au site ►</div>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn" onclick="toggleRotation()">⏸ Pause</button>
+            <button class="ctrl-btn" onclick="resetView()">↻ Reset</button>
         </div>
     </div>
 
-    <div id="modalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <h2 id="modalTitle">Titre</h2>
-            <div id="modalDesc">Description...</div>
-            <a id="modalLink" href="#" class="btn-visit" target="_blank">Accéder au site</a>
+    <!-- 3D Cube -->
+    <div class="scene">
+        <div class="cube" id="cube">
+            
+            <!-- Face 1: MicroJardin -->
+            <div class="cube-face face-front" onclick="openSite('https://microjardin.fr', this)">
+                <div class="hologram-overlay"></div>
+                <div class="scan-bar"></div>
+                <div class="face-icon">🌿</div>
+                <div class="face-title">MICROJARDIN</div>
+                <div class="face-desc">Jardinage Urbain & Indoor</div>
+                <div class="face-url">microjardin.fr</div>
+            </div>
+
+            <!-- Face 2: R.E.T CryptoSim -->
+            <div class="cube-face face-back" onclick="openSite('https://mret.fr', this)">
+                <div class="hologram-overlay"></div>
+                <div class="scan-bar"></div>
+                <div class="face-icon">📈</div>
+                <div class="face-title">R.E.T CRYPTO</div>
+                <div class="face-desc">Simulateur de Trading</div>
+                <div class="face-url">mret.fr</div>
+            </div>
+
+            <!-- Face 3: BVS Deal -->
+            <div class="cube-face face-right" onclick="openSite('https://bvsdeal.fr', this)">
+                <div class="hologram-overlay"></div>
+                <div class="scan-bar"></div>
+                <div class="face-icon">🏪</div>
+                <div class="face-title">BVS DEAL</div>
+                <div class="face-desc">Commerces Locaux & Offres</div>
+                <div class="face-url">bvsdeal.fr</div>
+            </div>
+
+            <!-- Face 4: BVS GO -->
+            <div class="cube-face face-left" onclick="openSite('https://bvsgo-app.web.app/', this)">
+                <div class="hologram-overlay"></div>
+                <div class="scan-bar"></div>
+                <div class="face-icon">🚚</div>
+                <div class="face-title">BVS GO</div>
+                <div class="face-desc">Livraison Express</div>
+                <div class="face-url">bvsgo-app.web.app</div>
+            </div>
+
+            <!-- Face 5: FranScred -->
+            <div class="cube-face face-top" onclick="openSite('#', this)">
+                <div class="hologram-overlay"></div>
+                <div class="scan-bar"></div>
+                <div class="face-badge badge-dev">DEV</div>
+                <div class="face-icon">🔐</div>
+                <div class="face-title">FRANSCRED</div>
+                <div class="face-desc">Messagerie Cryptée</div>
+                <div class="face-url">En développement</div>
+            </div>
+
+            <!-- Face 6: WhiteGhost -->
+            <div class="cube-face face-bottom" onclick="openSite('#', this)">
+                <div class="hologram-overlay"></div>
+                <div class="scan-bar"></div>
+                <div class="face-badge badge-dev">DEV</div>
+                <div class="face-icon">👻</div>
+                <div class="face-title">WHITEGHOST</div>
+                <div class="face-desc">Proxy International</div>
+                <div class="face-url">En développement</div>
+            </div>
+
         </div>
     </div>
 
     <script>
-        // Données des sites
-        const sitesData = {
-            bvsdeal: {
-                title: "BVS Deal",
-                desc: "<p>Une application permettant aux commerces de poster des offres, de mettre en avant des produits, et d'être affichés au cœur de l'application, avec un programme de fidélité personnalisé !</p><p>✅ Affichage constant et visibilité accrue<br>✅ Horaires en temps réel<br>✅ Itinéraire intégré pour vos clients<br>✅ Prise de contact facilitée</p>",
-                url: "https://bvsdeal.fr"
-            },
-            bvsgo: {
-                title: "BVS Go App",
-                desc: "<p>Une application de livraison, modulable pour s'adapter à la livraison classique ou au click and collect !</p><p><strong>Deux formules s'offrent à vous :</strong><br>🚀 <strong>En vente directe</strong> : Devenez propriétaire à 100% de votre application.<br>🛠️ <strong>Service complet</strong> : Hébergement et maintenance serveur inclus. Vous payez un abonnement et on s'occupe du reste. Vous gérez simplement vos commandes et vos produits !</p>",
-                url: "https://bvsgo-app.web.app/"
-            }
-        };
+        // === PARTICLE SYSTEM ===
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        let mouseX = 0, mouseY = 0;
+        let time = 0;
 
-        const modalOverlay = document.getElementById('modalOverlay');
-        const closeModalBtn = document.getElementById('closeModal');
-
-        // Fonction pour ouvrir la modale
-        function openModal(siteId) {
-            document.getElementById('modalTitle').innerHTML = sitesData[siteId].title;
-            document.getElementById('modalDesc').innerHTML = sitesData[siteId].desc;
-            document.getElementById('modalLink').href = sitesData[siteId].url;
-            modalOverlay.classList.add('active');
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
         }
 
-        // Fermer la modale au clic sur la croix
-        closeModalBtn.addEventListener('click', () => {
-            modalOverlay.classList.remove('active');
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.z = Math.random() * 2;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.8;
+                this.color = Math.random() > 0.7 ? '#00ffff' : '#0088ff';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Mouse interaction
+                const dx = this.x - mouseX;
+                const dy = this.y - mouseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 200) {
+                    this.x += dx * 0.01;
+                    this.y += dy * 0.01;
+                }
+
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity * 0.6;
+                ctx.fill();
+            }
+        }
+
+        // Grid lines
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.03)';
+            ctx.lineWidth = 1;
+            
+            const gridSize = 50;
+            const offset = (time * 0.5) % gridSize;
+            
+            for (let x = 0; x < width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            for (let y = offset; y < height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+        }
+
+        // Connecting lines
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${0.1 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < 120; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, width, height);
+            
+            drawGrid();
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            drawConnections();
+            
+            time++;
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        // Fermer la modale au clic en dehors de la boîte
-        window.addEventListener('click', (event) => {
-            if (event.target === modalOverlay) {
-                modalOverlay.classList.remove('active');
+        init();
+        animate();
+
+        // === CUBE INTERACTION ===
+        let isRotating = true;
+        const cube = document.getElementById('cube');
+
+        function toggleRotation() {
+            isRotating = !isRotating;
+            if (isRotating) {
+                cube.style.animation = 'autoRotate 20s infinite linear';
+                document.querySelector('.ctrl-btn').textContent = '⏸ Pause';
+            } else {
+                cube.style.animation = 'none';
+                document.querySelector('.ctrl-btn').textContent = '▶ Play';
+            }
+        }
+
+        function resetView() {
+            cube.style.animation = 'none';
+            cube.style.transform = 'rotateX(-15deg) rotateY(0deg)';
+            setTimeout(() => {
+                if (isRotating) {
+                    cube.style.animation = 'autoRotate 20s infinite linear';
+                }
+            }, 1000);
+        }
+
+        function openSite(url, element) {
+            // Holographic effect
+            element.classList.add('active');
+            
+            // Sound effect simulation (visual)
+            const flash = document.createElement('div');
+            flash.style.cssText = `
+                position: fixed;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                background: rgba(0, 255, 255, 0.2);
+                z-index: 100;
+                pointer-events: none;
+                animation: fadeOut 0.5s forwards;
+            `;
+            document.body.appendChild(flash);
+            
+            setTimeout(() => flash.remove(), 500);
+            
+            setTimeout(() => {
+                element.classList.remove('active');
+                if (url !== '#') {
+                    window.open(url, '_blank');
+                } else {
+                    alert('🔒 Projet en cours de développement — Accès restreint');
+                }
+            }, 800);
+        }
+
+        // Add fadeOut keyframe dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                0% { opacity: 1; }
+                100% { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Mouse drag to rotate cube manually
+        let isDragging = false;
+        let startX, startY;
+        let currentRotateX = -15;
+        let currentRotateY = 0;
+
+        document.querySelector('.scene').addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            cube.style.animation = 'none';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+            currentRotateY += deltaX * 0.5;
+            currentRotateX -= deltaY * 0.5;
+            cube.style.transform = `rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+            startX = e.clientX;
+            startY = e.clientY;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            if (isRotating) {
+                cube.style.animation = 'autoRotate 20s infinite linear';
+            }
+        });
+
+        // Touch support
+        document.querySelector('.scene').addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            cube.style.animation = 'none';
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const deltaX = e.touches[0].clientX - startX;
+            const deltaY = e.touches[0].clientY - startY;
+            currentRotateY += deltaX * 0.5;
+            currentRotateX -= deltaY * 0.5;
+            cube.style.transform = `rotateX(${currentRotateX}deg) rotateY(${currentRotateY}deg)`;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+            if (isRotating) {
+                cube.style.animation = 'autoRotate 20s infinite linear';
             }
         });
     </script>
-
 </body>
 </html>
